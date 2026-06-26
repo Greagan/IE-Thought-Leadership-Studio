@@ -1,0 +1,10 @@
+{
+  "name": "ie-thought-leadership-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Imprint Engine Thought Leadership Studio — employee content ghostwriting agent (Vercel deployment).",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  }
+}
