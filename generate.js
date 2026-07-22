@@ -7,33 +7,29 @@
 import { BRAND_VOICE } from "./brand-voice.js";
 import { requireUser } from "./_lib/auth.js";
 import { audit } from "./_lib/db.js";
- 
-// Allow longer generations (long-form / multiple variations). Honored on Vercel
-// Pro/Enterprise; Hobby caps at ~10s regardless.
-export const maxDuration = 60;
- 
+
 export default async function handler(req, res) {
   if (req.method !== "POST") { res.status(405).json({ error: "Method not allowed" }); return; }
- 
+
   let user;
   try { user = await requireUser(req); }
   catch (e) { res.status(e.status || 401).json({ error: e.message || "Unauthorized" }); return; }
- 
+
   const API_KEY = process.env.ANTHROPIC_API_KEY;
   if (!API_KEY) { res.status(500).json({ error: "Server is not configured: ANTHROPIC_API_KEY missing." }); return; }
- 
+
   let body = req.body;
   if (typeof body === "string") { try { body = JSON.parse(body); } catch (e) { body = {}; } }
   const { system, user: userMsg, model, max_tokens } = body || {};
   if (!userMsg || typeof userMsg !== "string") { res.status(400).json({ error: "Missing 'user' content in request." }); return; }
- 
+
   const ALLOWED = ["claude-opus-4-8", "claude-sonnet-4-6", "claude-haiku-4-5-20251001"];
   const useModel = ALLOWED.includes(model) ? model : "claude-sonnet-4-6";
- 
+
   const applyVoice = body.applyBrandVoice !== false;
   const baseSystem = typeof system === "string" ? system : "";
   const fullSystem = applyVoice ? (BRAND_VOICE + "\n\n---\n\n" + baseSystem) : baseSystem;
- 
+
   try {
     const r = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
