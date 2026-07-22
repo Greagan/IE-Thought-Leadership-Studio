@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Imprint Engine · Thought Leadership Studio</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
   :root{
     --purple:#6C2BD9; --purple-dk:#5620AE;
@@ -19,21 +20,27 @@
   body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
   button{font-family:inherit;cursor:pointer}
   textarea,select,input{font-family:inherit;font-size:14px}
-  .pixelgrid{background-image:
-    linear-gradient(rgba(255,255,255,.10) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.10) 1px,transparent 1px);
-    background-size:14px 14px}
+  .pixelgrid{background-image:linear-gradient(rgba(255,255,255,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.10) 1px,transparent 1px);background-size:14px 14px}
 
-  header.top{display:flex;align-items:center;gap:12px;padding:13px 24px;border-bottom:1px solid var(--line);
-    background:var(--purple);color:#fff;position:sticky;top:0;z-index:20;flex-wrap:wrap}
+  /* sign-in gate */
+  #gate{position:fixed;inset:0;background:var(--purple);color:#fff;display:flex;align-items:center;justify-content:center;z-index:100}
+  #gate .box{background:#fff;color:var(--ink);border-radius:18px;padding:34px 30px;max-width:380px;width:92%;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.3)}
+  #gate .mark{width:46px;height:46px;border-radius:11px;background:var(--purple);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;letter-spacing:-1px;margin-bottom:14px}
+  #gate h1{font-size:19px;margin:0 0 4px}
+  #gate p{color:var(--muted);font-size:13px;margin:0 0 20px}
+  #gbtn{display:flex;justify-content:center;min-height:44px}
+  #gateErr{color:var(--red-dk);font-size:12.5px;margin-top:14px;display:none}
+
+  header.top{display:flex;align-items:center;gap:12px;padding:13px 24px;border-bottom:1px solid var(--line);background:var(--purple);color:#fff;position:sticky;top:0;z-index:20;flex-wrap:wrap}
   .logo{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.5px;font-size:16px;text-transform:uppercase}
   .logo .mark{width:30px;height:30px;border-radius:7px;background:#fff;color:var(--purple);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;letter-spacing:-1px}
   .logo .dot{color:var(--red)}
   .brand small{display:block;color:rgba(255,255,255,.82);font-weight:400;font-size:11px;letter-spacing:.3px;text-transform:none}
   .top .spacer{flex:1}
+  .who{display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(255,255,255,.9)}
+  .who img{width:26px;height:26px;border-radius:50%}
   .tabbtn{background:transparent;border:1px solid transparent;color:rgba(255,255,255,.82);padding:7px 13px;border-radius:999px;font-size:13.5px;font-weight:500}
-  .tabbtn:hover{color:#fff}
-  .tabbtn.active{background:#fff;color:var(--purple);border-color:#fff;font-weight:600}
+  .tabbtn:hover{color:#fff}.tabbtn.active{background:#fff;color:var(--purple);border-color:#fff;font-weight:600}
   .tabbtn .badge{background:var(--red);color:#fff;border-radius:999px;font-size:10px;font-weight:700;padding:1px 6px;margin-left:5px}
   .iconbtn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);color:#fff;padding:7px 12px;border-radius:var(--radius-sm);font-size:13px}
 
@@ -42,11 +49,10 @@
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
   @media(max-width:880px){.grid{grid-template-columns:1fr}}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:0 1px 2px rgba(26,20,48,.04)}
-  .card h2{margin:0 0 4px;font-size:16px}
-  .card .hint{color:var(--muted);font-size:12.5px;margin:0 0 14px}
+  .card h2{margin:0 0 4px;font-size:16px}.card .hint{color:var(--muted);font-size:12.5px;margin:0 0 14px}
 
   .lab{display:block;font-size:12.5px;color:var(--ink-soft);margin-bottom:6px;font-weight:600}
-  select,textarea,input[type=text],input[type=password]{width:100%;background:var(--panel);border:1px solid var(--line-2);color:var(--text);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:14px;outline:none}
+  select,textarea,input[type=text]{width:100%;background:var(--panel);border:1px solid var(--line-2);color:var(--text);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:14px;outline:none}
   select:focus,textarea:focus,input:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(108,43,217,.12)}
   textarea{resize:vertical;min-height:78px;line-height:1.5}
 
@@ -54,20 +60,15 @@
   .typecard{text-align:left;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:11px 12px;color:var(--text)}
   .typecard:hover{border-color:var(--line-2)}
   .typecard[aria-pressed=true]{border-color:var(--purple);background:rgba(108,43,217,.08)}
-  .typecard .t{font-weight:700;font-size:13px}
-  .typecard .d{color:var(--muted);font-size:11px;margin-top:2px}
+  .typecard .t{font-weight:700;font-size:13px}.typecard .d{color:var(--muted);font-size:11px;margin-top:2px}
 
   .row{display:flex;gap:12px}.row>*{flex:1}
   .btnrow{display:flex;gap:10px;margin-top:2px}
   .btn{background:var(--purple);border:1px solid var(--purple);color:#fff;padding:11px 16px;border-radius:var(--radius-sm);font-size:14px;font-weight:700}
-  .btn:hover{background:var(--purple-dk)}
-  .btn:disabled{opacity:.6;cursor:not-allowed}
-  .btn.grow{flex:1}
-  .btn.sm{padding:7px 11px;font-size:12.5px;font-weight:600}
-  .btn.secondary{background:var(--panel-2);border-color:var(--line-2);color:var(--ink)}
-  .btn.secondary:hover{background:var(--line)}
-  .btn.ghost{background:transparent;border-color:var(--line-2);color:var(--ink-soft)}
-  .btn.ghost:hover{background:var(--panel-2)}
+  .btn:hover{background:var(--purple-dk)}.btn:disabled{opacity:.6;cursor:not-allowed}
+  .btn.grow{flex:1}.btn.sm{padding:7px 11px;font-size:12.5px;font-weight:600}
+  .btn.secondary{background:var(--panel-2);border-color:var(--line-2);color:var(--ink)}.btn.secondary:hover{background:var(--line)}
+  .btn.ghost{background:transparent;border-color:var(--line-2);color:var(--ink-soft)}.btn.ghost:hover{background:var(--panel-2)}
 
   .out{display:flex;flex-direction:column;gap:14px}
   .empty{color:var(--faint);font-size:13.5px;text-align:center;padding:30px 10px;border:1.5px dashed var(--line-2);border-radius:var(--radius-sm)}
@@ -78,66 +79,80 @@
   .draft .meta .dot{width:7px;height:7px;border-radius:2px;background:var(--red)}
   .draft .body{white-space:pre-wrap;line-height:1.62;font-size:14.5px;outline:none;border-radius:6px;padding:2px}
   .draft .body:focus{box-shadow:0 0 0 3px rgba(108,43,217,.12);background:var(--panel-2)}
-  .draft .count{margin-top:8px;font-size:11.5px;color:var(--faint)}
-  .draft .count .over{color:var(--red-dk);font-weight:600}
-  .draft .visual{margin-top:10px;font-size:12.5px;color:var(--ink-soft);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:8px 11px}
-  .draft .visual b{color:var(--purple-dk)}
+  .draft .count{margin-top:8px;font-size:11.5px;color:var(--faint)}.draft .count .over{color:var(--red-dk);font-weight:600}
+  .draft .visual{margin-top:10px;font-size:12.5px;color:var(--ink-soft);background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:8px 11px}.draft .visual b{color:var(--purple-dk)}
   .draft .acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
   .editnote{font-size:11px;color:var(--faint);margin-top:6px}
+
+  .stat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:999px}
+  .stat.draft{background:var(--panel-2);color:var(--muted)}
+  .stat.in_review{background:rgba(201,122,18,.14);color:#9a5d10}
+  .stat.approved{background:rgba(31,157,107,.14);color:#157a51}
+  .stat.changes_requested{background:rgba(245,51,63,.12);color:var(--red-dk)}
 
   .hooks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
   .hooks li{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 12px;font-size:14px;display:flex;gap:8px;align-items:flex-start}
   .hooks li .n{color:var(--purple);font-weight:800;flex:0 0 auto}
 
-  .profiles{display:flex;flex-direction:column;gap:12px}
+  .profiles,.saved{display:flex;flex-direction:column;gap:12px}
   .profile{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:13px 15px;display:flex;align-items:center;gap:12px}
   .profile .av{width:36px;height:36px;border-radius:8px;background:var(--purple);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;flex:0 0 auto}
-  .profile .nm{font-weight:700}.profile .ro{color:var(--muted);font-size:12.5px}
-  .profile .spacer{flex:1}
-
-  .saved{display:flex;flex-direction:column;gap:12px}
+  .profile .nm{font-weight:700}.profile .ro{color:var(--muted);font-size:12.5px}.profile .spacer{flex:1}
   .saveditem{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-sm);padding:13px 15px}
   .saveditem .h{display:flex;align-items:center;gap:8px;color:var(--faint);font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
   .saveditem .tag{background:rgba(108,43,217,.1);color:var(--purple-dk);border-radius:999px;padding:2px 8px}
   .saveditem .txt{white-space:pre-wrap;font-size:13.5px;color:var(--ink);max-height:5.2em;overflow:hidden}
-  .saveditem .acts{display:flex;gap:8px;margin-top:10px}
+  .saveditem .acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .note-in{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12.5px;color:var(--ink-soft);margin-top:8px}
 
   .spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:7px}
   @keyframes sp{to{transform:rotate(360deg)}}
-
   .modal-bg{position:fixed;inset:0;background:rgba(26,20,48,.5);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
   .modal-bg.open{display:flex}
   .modal{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);width:100%;max-width:560px;max-height:92vh;overflow:auto;padding:22px;box-shadow:0 20px 60px rgba(26,20,48,.25)}
   .modal h3{margin:0 0 4px}.modal .sub{color:var(--muted);font-size:12.5px;margin:0 0 16px}
   .modal .foot{display:flex;justify-content:flex-end;gap:10px;margin-top:8px}
-  .autobox{background:rgba(108,43,217,.05);border:1px dashed var(--line-2);border-radius:var(--radius-sm);padding:12px;margin-bottom:14px}
-  .autobox .lab{margin-bottom:6px}
+  .autobox{background:rgba(108,43,217,.05);border:1px dashed var(--line-2);border-radius:var(--radius-sm);padding:12px;margin-bottom:14px}.autobox .lab{margin-bottom:6px}
   .banner{background:rgba(108,43,217,.06);border:1px solid rgba(108,43,217,.25);color:var(--purple-dk);padding:10px 13px;border-radius:var(--radius-sm);font-size:12.5px;margin-bottom:16px}
+  .modes{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+  .moderow{display:flex;align-items:center;gap:10px}.moderow span{flex:1;font-size:13.5px}
   .note{max-width:1080px;margin:0 auto;padding:0 24px 40px;color:var(--muted);font-size:12px}
 </style>
 </head>
 <body>
-  <header class="top pixelgrid">
+
+  <!-- SIGN-IN GATE -->
+  <div id="gate">
+    <div class="box">
+      <div class="mark">IE</div>
+      <h1>Thought Leadership Studio</h1>
+      <p id="gateSub">Sign in with your Imprint Engine account.</p>
+      <div id="gbtn"></div>
+      <div id="gateErr"></div>
+    </div>
+  </div>
+
+  <header class="top pixelgrid" style="display:none" id="appHeader">
     <div class="logo"><span class="mark">IE</span> Imprint Engine<span class="dot">.</span></div>
     <div class="brand"><small>Thought Leadership Studio</small></div>
     <div class="spacer"></div>
+    <span class="who" id="who"></span>
     <button class="tabbtn active" data-tab="compose">Compose</button>
     <button class="tabbtn" data-tab="saved">Saved <span class="badge" id="savedBadge" style="display:none">0</span></button>
     <button class="tabbtn" data-tab="profiles">Voice profiles</button>
+    <button class="tabbtn" data-tab="review" id="reviewTabBtn" style="display:none">Review <span class="badge" id="reviewBadge" style="display:none">0</span></button>
     <button class="iconbtn" id="openSettings">Settings</button>
   </header>
 
-  <main>
+  <main id="appMain" style="display:none">
     <!-- COMPOSE -->
     <section class="view active" id="view-compose">
       <div class="grid">
         <div class="card">
           <h2>What are we writing?</h2>
           <p class="hint">Pick a voice, a format, and give it something to work with.</p>
-
           <span class="lab">Voice profile</span>
           <select id="voiceSelect"></select>
-
           <span class="lab">Content type</span>
           <div class="typegrid" id="typeGrid">
             <button class="typecard" data-type="linkedin" aria-pressed="true"><div class="t">LinkedIn post</div><div class="d">Short, hook-driven</div></button>
@@ -149,29 +164,24 @@
             <button class="typecard" data-type="longform" aria-pressed="false"><div class="t">Long-form article</div><div class="d">Blog, essay, byline</div></button>
             <button class="typecard" data-type="newsletter" aria-pressed="false"><div class="t">Newsletter</div><div class="d">Email-style update</div></button>
           </div>
-
           <span class="lab" id="topicLab">Topic / angle</span>
           <textarea id="topic" placeholder="What's the idea? A point of view, a lesson, a reaction to something in the industry…"></textarea>
-
           <span class="lab">Source / reference <span style="font-weight:400;color:var(--faint)">— optional, keeps it grounded</span></span>
           <textarea id="source" style="min-height:56px" placeholder="Paste a stat, a link, or a fact you want it to use (so nothing gets made up)."></textarea>
-
           <div class="row">
             <div><span class="lab">Audience</span><select id="audience"><option>Marketing &amp; HR leaders</option><option>Procurement leaders</option><option>Prospects</option><option>Industry peers</option></select></div>
             <div><span class="lab">Length</span><select id="length"><option>Short</option><option selected>Medium</option><option>Long</option></select></div>
             <div><span class="lab">Variations</span><select id="variations"><option>1</option><option selected>2</option><option>3</option></select></div>
           </div>
-
           <div class="btnrow">
             <button class="btn grow" id="generateBtn">Generate</button>
             <button class="btn secondary" id="hooksBtn">Give me 5 hooks</button>
           </div>
           <div class="errbox" id="composeErr"></div>
         </div>
-
         <div class="card">
           <h2>Drafts</h2>
-          <p class="hint">On Imprint Engine's brand voice. Click a draft to edit it. Everything's a draft for review before posting.</p>
+          <p class="hint">On Imprint Engine's brand voice. Click a draft to edit. Everything's a draft for human review before posting.</p>
           <div id="output" class="out"><div class="empty">Click Generate to write in this voice.</div></div>
         </div>
       </div>
@@ -181,7 +191,7 @@
     <section class="view" id="view-saved">
       <div class="card" style="max-width:760px;margin:0 auto">
         <h2 style="margin:0 0 4px">Saved drafts</h2>
-        <p class="hint">Keep the ones worth coming back to. (Saved in this browser — central, cross-device sync comes with team sign-in.)</p>
+        <p class="hint">Your library, synced to your account.</p>
         <div class="saved" id="savedList"></div>
       </div>
     </section>
@@ -193,121 +203,179 @@
           <h2 style="margin:0">Voice profiles</h2>
           <button class="btn sm" id="newProfileBtn">+ New profile</button>
         </div>
-        <p class="hint">Build a profile once per person. Paste a few of their real posts and it writes the profile for you.</p>
+        <p class="hint">Shared across the team. Paste a few of someone's real posts and it writes the profile for you.</p>
         <div class="profiles" id="profileList"></div>
+      </div>
+    </section>
+
+    <!-- REVIEW (approvers) -->
+    <section class="view" id="view-review">
+      <div class="card" style="max-width:760px;margin:0 auto">
+        <h2 style="margin:0 0 4px">Review queue</h2>
+        <p class="hint">Drafts submitted for approval. Approve or request changes.</p>
+        <div class="saved" id="reviewList"></div>
       </div>
     </section>
   </main>
 
-  <p class="note">Drafts are generated through a secure Imprint Engine server with the brand voice applied automatically. Everything is a draft for human review before posting.</p>
+  <p class="note" id="footNote" style="display:none">Drafts run through a secure Imprint Engine server with the brand voice applied automatically. Everything is a draft for human review before posting.</p>
 
   <!-- profile modal -->
-  <div class="modal-bg" id="profileModal">
-    <div class="modal">
-      <h3 id="pmTitle">Voice profile</h3>
-      <p class="sub">How this person sounds. The more real their samples, the better the match.</p>
-
-      <div class="autobox">
-        <span class="lab">⚡ Auto-build from their posts</span>
-        <textarea id="pmPaste" style="min-height:64px" placeholder="Paste 2–5 of this person's real LinkedIn posts here…"></textarea>
-        <button class="btn sm" id="pmBuild">Build voice profile from posts</button>
-        <div class="editnote">Reads the samples and fills in the fields below. You can tweak anything after.</div>
-      </div>
-
-      <span class="lab">Name</span><input type="text" id="pmName" placeholder="e.g. Dana Reyes">
-      <span class="lab">Role / title</span><input type="text" id="pmRole" placeholder="e.g. VP of Operations">
-      <span class="lab">Topics &amp; expertise</span><input type="text" id="pmTopics" placeholder="e.g. supply chain, lean ops">
-      <span class="lab">Voice notes</span><textarea id="pmNotes" placeholder="Tone, quirks, do's & don'ts"></textarea>
-      <span class="lab">Writing sample</span><textarea id="pmSample" style="min-height:90px" placeholder="A real paragraph in their voice"></textarea>
-
-      <div class="foot">
-        <button class="btn ghost sm" id="pmDelete" style="margin-right:auto;display:none;border-color:rgba(245,51,63,.5);color:var(--red-dk)">Delete</button>
-        <button class="btn ghost sm" id="pmClose">Cancel</button>
-        <button class="btn sm" id="pmSave">Save profile</button>
-      </div>
+  <div class="modal-bg" id="profileModal"><div class="modal">
+    <h3 id="pmTitle">Voice profile</h3><p class="sub">How this person sounds. The more real their samples, the better the match.</p>
+    <div class="autobox">
+      <span class="lab">⚡ Auto-build from their posts</span>
+      <textarea id="pmPaste" style="min-height:64px" placeholder="Paste 2–5 of this person's real LinkedIn posts here…"></textarea>
+      <button class="btn sm" id="pmBuild">Build voice profile from posts</button>
+      <div class="editnote">Reads the samples and fills in the fields below. Tweak anything after.</div>
     </div>
-  </div>
+    <span class="lab">Name</span><input type="text" id="pmName" placeholder="e.g. Dana Reyes">
+    <span class="lab">Role / title</span><input type="text" id="pmRole" placeholder="e.g. VP of Operations">
+    <span class="lab">Topics &amp; expertise</span><input type="text" id="pmTopics" placeholder="e.g. supply chain, lean ops">
+    <span class="lab">Voice notes</span><textarea id="pmNotes" placeholder="Tone, quirks, do's & don'ts"></textarea>
+    <span class="lab">Writing sample</span><textarea id="pmSample" style="min-height:90px" placeholder="A real paragraph in their voice"></textarea>
+    <div class="foot">
+      <button class="btn ghost sm" id="pmDelete" style="margin-right:auto;display:none;border-color:rgba(245,51,63,.5);color:var(--red-dk)">Delete</button>
+      <button class="btn ghost sm" id="pmClose">Cancel</button>
+      <button class="btn sm" id="pmSave">Save profile</button>
+    </div>
+  </div></div>
 
   <!-- settings modal -->
-  <div class="modal-bg" id="settingsModal">
-    <div class="modal">
-      <h3>Settings</h3>
-      <p class="sub">How drafts are generated.</p>
-      <div class="banner">No API key needed — generation runs through a secure Imprint Engine server with the brand voice applied automatically. If asked for an access password, that's the shared team password.</div>
-      <span class="lab">Model</span>
-      <select id="model">
-        <option value="claude-opus-4-8">Claude Opus 4.8 — highest quality</option>
-        <option value="claude-sonnet-4-6" selected>Claude Sonnet 4.6 — balanced (recommended)</option>
-        <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5 — fastest</option>
-      </select>
-      <div class="foot">
-        <button class="btn ghost sm" id="signOutBtn" style="margin-right:auto;border-color:rgba(245,51,63,.5);color:var(--red-dk)">Sign out</button>
-        <button class="btn ghost sm" id="setClose">Close</button>
-        <button class="btn sm" id="setSave">Save</button>
-      </div>
+  <div class="modal-bg" id="settingsModal"><div class="modal">
+    <h3>Settings</h3><p class="sub">Generation and review controls.</p>
+    <div class="banner">No API key needed — generation runs through a secure Imprint Engine server with the brand voice applied automatically.</div>
+    <span class="lab">Model</span>
+    <select id="model">
+      <option value="claude-opus-4-8">Claude Opus 4.8 — highest quality</option>
+      <option value="claude-sonnet-4-6" selected>Claude Sonnet 4.6 — balanced (recommended)</option>
+      <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5 — fastest</option>
+    </select>
+    <div id="approverSettings" style="display:none">
+      <hr style="border:none;border-top:1px solid var(--line);margin:16px 0">
+      <span class="lab">Review mode per content type</span>
+      <div class="modes" id="modeRows"></div>
+      <span class="lab">Approvers (one email per line)</span>
+      <textarea id="approversBox" placeholder="name@imprintengine.com"></textarea>
+      <div class="editnote">Approvers can change these settings and act on the review queue.</div>
     </div>
-  </div>
+    <div class="foot">
+      <button class="btn ghost sm" id="signOutBtn" style="margin-right:auto;border-color:rgba(245,51,63,.5);color:var(--red-dk)">Sign out</button>
+      <button class="btn ghost sm" id="setClose">Close</button>
+      <button class="btn sm" id="setSave">Save</button>
+    </div>
+  </div></div>
 
 <script>
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-const LS={profiles:"tls_profiles_v2", saved:"tls_saved", model:"tls_model"};
-const SS={pw:"tls_pw"};
-const load=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}};
-const store=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}};
-const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 const esc=s=>(s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 
-const SEED_PROFILES=[
-  {id:"schwandt",name:"Mike Schwandt",role:"Chief Marketing Officer",topics:"",notes:"",sample:""},
-  {id:"malam",name:"Scott Malam",role:"",topics:"",notes:"",sample:""},
-  {id:"pike",name:"Mike Pike",role:"",topics:"",notes:"",sample:""},
-  {id:"fillhouer",name:"Amy Fillhouer",role:"",topics:"",notes:"",sample:""},
-  {id:"debue",name:"RJ Debue",role:"",topics:"",notes:"",sample:""},
-  {id:"gilbertson",name:"Caleb Gilbertson",role:"",topics:"",notes:"",sample:""},
-  {id:"wilking",name:"Carl Wilking",role:"",topics:"",notes:"",sample:""}
-];
-
-const LABELS={
-  linkedin:"Topic / angle", comment:"Paste the post you're replying to", repurpose:"Paste the long piece to repurpose",
-  hottake:"Paste the article, headline, or quote", transcript:"Paste the transcript or notes",
-  videoscript:"Topic / angle (for a short video)", longform:"Topic / angle", newsletter:"Topic / angle"
-};
+const TYPES=["linkedin","comment","repurpose","hottake","transcript","videoscript","longform","newsletter"];
+const TYPE_NAMES={linkedin:"LinkedIn post",comment:"LinkedIn comment",repurpose:"Repurpose → many",hottake:"Hot take",transcript:"Transcript ghostwrite",videoscript:"Video script",longform:"Long-form article",newsletter:"Newsletter"};
+const LABELS={linkedin:"Topic / angle",comment:"Paste the post you're replying to",repurpose:"Paste the long piece to repurpose",hottake:"Paste the article, headline, or quote",transcript:"Paste the transcript or notes",videoscript:"Topic / angle (for a short video)",longform:"Topic / angle",newsletter:"Topic / angle"};
 const LINKEDIN_TYPES=["linkedin","comment","hottake","repurpose"];
 const VISUAL_TYPES=["linkedin","hottake","repurpose","videoscript","longform","newsletter"];
 const LEN={
-  Short:{linkedin:"about 80–130 words",comment:"2–3 sentences",repurpose:"3 short posts, ~50–80 words each",hottake:"about 90–140 words",transcript:"about 120–200 words",videoscript:"about 25–35 seconds",longform:"about 500–700 words",newsletter:"about 150–250 words"},
-  Medium:{linkedin:"about 150–220 words",comment:"3–4 sentences",repurpose:"3 short posts, ~80–120 words each",hottake:"about 150–220 words",transcript:"about 250–400 words",videoscript:"about 35–45 seconds",longform:"about 800–1100 words",newsletter:"about 300–450 words"},
-  Long:{linkedin:"about 250–320 words",comment:"4–6 sentences",repurpose:"4 short posts, ~100–140 words each",hottake:"about 250–320 words",transcript:"about 450–650 words",videoscript:"about 45–60 seconds",longform:"about 1300–1800 words",newsletter:"about 550–750 words"}
+  Short:{linkedin:"about 80–130 words",comment:"2–3 sentences",repurpose:"3 short posts",hottake:"about 90–140 words",transcript:"about 120–200 words",videoscript:"about 25–35 seconds",longform:"about 500–700 words",newsletter:"about 150–250 words"},
+  Medium:{linkedin:"about 150–220 words",comment:"3–4 sentences",repurpose:"3 short posts",hottake:"about 150–220 words",transcript:"about 250–400 words",videoscript:"about 35–45 seconds",longform:"about 800–1100 words",newsletter:"about 300–450 words"},
+  Long:{linkedin:"about 250–320 words",comment:"4–6 sentences",repurpose:"4 short posts",hottake:"about 250–320 words",transcript:"about 450–650 words",videoscript:"about 45–60 seconds",longform:"about 1300–1800 words",newsletter:"about 550–750 words"}
 };
 const GUIDE={
-  linkedin:"a LinkedIn post. Open with a strong, specific hook on the first line (no clickbait). Short paragraphs, generous line breaks. Land one clear idea. End with a light, genuine invitation to engage — not a salesy CTA. At most 1–3 natural hashtags, or none.",
-  comment:"a LinkedIn comment replying to the post above. Add a genuine point of view or a concrete addition — not empty praise. Sound like a real person, not a brand account.",
-  repurpose:"a set of standalone LinkedIn posts derived from the source material above. Each can stand alone, but together they tell one story across a week. Label them POST 1 / POST 2 / POST 3 (with a one- or two-word theme each).",
-  hottake:"a punchy point-of-view LinkedIn post reacting to the article/headline/quote above. Stake a clear, defensible position. No strawmen, no manufactured outrage. Back the take with a real reason.",
-  transcript:"a piece of written content built from the transcript/notes above. Mine the raw material for the strongest, most original idea and best concrete details. Do not summarize the whole thing — shape ONE compelling narrative. Keep the speaker's real phrasing where it's good; smooth out filler and tangents.",
-  videoscript:"a short-form video script (talking head). Provide HOOK (0–3s), 2–3 labeled beats with rough timestamps, and a CLOSE. Then an ON-SCREEN TEXT suggestion and an END CARD line. Punchy and spoken, not written-essay style.",
-  longform:"a long-form article. Compelling lead, clear through-line, concrete examples, subheadings where helpful. Make a real argument or share a real insight. Avoid filler and generic advice. Resonant, non-cheesy ending.",
-  newsletter:"a newsletter-style email. Conversational, written to a specific reader. First line is a subject suggestion prefixed with 'Subject: '. One main idea, scannable, warm sign-off."
+  linkedin:"a LinkedIn post. Strong specific hook on line one (no clickbait). Short paragraphs, generous line breaks. One clear idea. End with a light, genuine invitation to engage. At most 1–3 natural hashtags, or none.",
+  comment:"a LinkedIn comment replying to the post above. Add a genuine point of view or concrete addition — not empty praise. Sound like a real person.",
+  repurpose:"a set of standalone LinkedIn posts derived from the source above. Each stands alone, together they tell one story across a week. Label POST 1 / POST 2 / POST 3 with a short theme each.",
+  hottake:"a punchy point-of-view LinkedIn post reacting to the article/headline/quote above. Stake a clear, defensible position. No strawmen. Back it with a real reason.",
+  transcript:"a piece built from the transcript/notes above. Mine the strongest original idea and best concrete details. Shape ONE narrative, don't summarize. Keep good real phrasing; cut filler.",
+  videoscript:"a short-form video script (talking head). HOOK (0–3s), 2–3 labeled beats with timestamps, a CLOSE, then an ON-SCREEN TEXT suggestion and END CARD line. Spoken, punchy.",
+  longform:"a long-form article. Compelling lead, clear through-line, concrete examples, subheadings where helpful. A real argument or insight. Resonant ending.",
+  newsletter:"a newsletter email. Conversational, to a specific reader. First line 'Subject: ...'. One idea, scannable, warm sign-off."
 };
 
+let idToken=sessionStorage.getItem("ie_idtoken")||"";
+let me={email:"",name:"",picture:"",isApprover:false};
+let cfg={googleClientId:"",allowedDomain:"imprintengine.com"};
+let profiles=[], myDrafts=[], reviewModes={}, approvers=[];
 let state={type:"linkedin"};
-let profiles=load(LS.profiles,null)||SEED_PROFILES.slice();
-let saved=load(LS.saved,[]);
 
-/* tabs + modals */
+/* ---------- API helper ---------- */
+async function api(path, opts){
+  opts=opts||{};
+  const headers=Object.assign({"content-type":"application/json"}, opts.headers||{});
+  if(idToken) headers["Authorization"]="Bearer "+idToken;
+  const res=await fetch(path,{method:opts.method||"GET",headers,body:opts.body?JSON.stringify(opts.body):undefined});
+  if(res.status===401){ showGate("Your session expired. Sign in again."); throw new Error("Session expired"); }
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(data.error||("Request failed ("+res.status+")"));
+  return data;
+}
+
+/* ---------- sign-in ---------- */
+async function boot(){
+  try{ cfg=await (await fetch("/api/config")).json(); }catch(e){}
+  if(!cfg.googleClientId){ showGate("Server not configured: GOOGLE_CLIENT_ID is missing."); return; }
+  $("#gateSub").textContent="Sign in with your "+cfg.allowedDomain+" account.";
+  if(idToken){ try{ await startApp(); return; }catch(e){ idToken=""; sessionStorage.removeItem("ie_idtoken"); } }
+  renderGoogleButton();
+}
+function renderGoogleButton(){
+  if(!window.google||!google.accounts){ setTimeout(renderGoogleButton,200); return; }
+  google.accounts.id.initialize({client_id:cfg.googleClientId, callback:onCredential});
+  google.accounts.id.renderButton($("#gbtn"),{theme:"filled_blue",size:"large",text:"signin_with",shape:"pill"});
+}
+async function onCredential(resp){
+  idToken=resp.credential; sessionStorage.setItem("ie_idtoken",idToken);
+  try{ await startApp(); }catch(e){ showGate(e.message); }
+}
+function showGate(msg){
+  $("#gate").style.display="flex"; $("#appHeader").style.display="none"; $("#appMain").style.display="none"; $("#footNote").style.display="none";
+  if(msg){ const e=$("#gateErr"); e.textContent=msg; e.style.display="block"; }
+  renderGoogleButton();
+}
+async function startApp(){
+  const s=await api("/api/settings");           // also validates the token
+  me=s.me; reviewModes=s.modes||{}; approvers=s.approvers||[];
+  $("#gate").style.display="none";
+  $("#appHeader").style.display="flex"; $("#appMain").style.display="block"; $("#footNote").style.display="block";
+  $("#who").innerHTML=(me.picture?`<img src="${me.picture}" alt="">`:"")+esc(me.name||me.email);
+  if(me.isApprover){ $("#reviewTabBtn").style.display="inline-block"; $("#approverSettings").style.display="block"; }
+  await Promise.all([loadProfiles(), loadDrafts()]);
+  if(me.isApprover) loadReviewQueue();
+}
+
+/* ---------- tabs + modals ---------- */
 $$(".tabbtn").forEach(b=>b.onclick=()=>{
   $$(".tabbtn").forEach(x=>x.classList.toggle("active",x===b));
   $$(".view").forEach(v=>v.classList.remove("active"));
   $("#view-"+b.dataset.tab).classList.add("active");
+  if(b.dataset.tab==="review") loadReviewQueue();
+  if(b.dataset.tab==="saved") loadDrafts();
 });
-$("#openSettings").onclick=()=>{$("#model").value=localStorage.getItem(LS.model)||"claude-sonnet-4-6";$("#settingsModal").classList.add("open");};
+$("#openSettings").onclick=()=>{ $("#model").value=localStorage.getItem("ie_model")||"claude-sonnet-4-6"; renderModeRows(); $("#approversBox").value=approvers.join("\n"); $("#settingsModal").classList.add("open"); };
 $("#setClose").onclick=()=>$("#settingsModal").classList.remove("open");
-$("#setSave").onclick=()=>{localStorage.setItem(LS.model,$("#model").value);$("#settingsModal").classList.remove("open");};
-$("#signOutBtn").onclick=()=>{sessionStorage.removeItem(SS.pw);$("#settingsModal").classList.remove("open");alert("Signed out. You'll be asked for the access password next time you generate.");};
+$("#signOutBtn").onclick=()=>{ sessionStorage.removeItem("ie_idtoken"); idToken=""; try{google.accounts.id.disableAutoSelect();}catch(e){} location.reload(); };
 $("#pmClose").onclick=()=>$("#profileModal").classList.remove("open");
 $$(".modal-bg").forEach(m=>m.onclick=e=>{if(e.target===m)m.classList.remove("open");});
 
-/* content type */
+$("#setSave").onclick=async()=>{
+  localStorage.setItem("ie_model",$("#model").value);
+  if(me.isApprover){
+    const modes={}; $$("#modeRows select").forEach(s=>modes[s.dataset.type]=s.value);
+    const appr=$("#approversBox").value.split("\n").map(x=>x.trim()).filter(Boolean);
+    try{ await api("/api/settings",{method:"PUT",body:{modes,approvers:appr}}); reviewModes=modes; approvers=appr; }
+    catch(e){ alert("Couldn't save settings: "+e.message); return; }
+  }
+  $("#settingsModal").classList.remove("open");
+};
+function renderModeRows(){
+  $("#modeRows").innerHTML=TYPES.map(t=>`<div class="moderow"><span>${TYPE_NAMES[t]}</span>
+    <select data-type="${t}" style="width:150px;margin:0">
+      <option value="self"${(reviewModes[t]||"self")==="self"?" selected":""}>Self-review</option>
+      <option value="approver"${reviewModes[t]==="approver"?" selected":""}>Approver queue</option>
+    </select></div>`).join("");
+}
+
+/* ---------- content type ---------- */
 $("#typeGrid").addEventListener("click",e=>{
   const c=e.target.closest(".typecard"); if(!c) return;
   state.type=c.dataset.type;
@@ -315,215 +383,177 @@ $("#typeGrid").addEventListener("click",e=>{
   $("#topicLab").textContent=LABELS[state.type];
 });
 
-/* ---------- server call (no key in browser) ---------- */
-async function doFetch(payload, pw){
-  return fetch("/api/generate",{method:"POST",headers:{"content-type":"application/json","x-app-password":pw||""},body:JSON.stringify(payload)});
-}
-async function callServer(system, user, opts){
+/* ---------- generation ---------- */
+async function callServer(system,user,opts){
   opts=opts||{};
-  const model=localStorage.getItem(LS.model)||"claude-sonnet-4-6";
-  const payload={system,user,model,max_tokens:opts.max_tokens||2400};
-  if(opts.applyBrandVoice===false) payload.applyBrandVoice=false;
-  let pw=sessionStorage.getItem(SS.pw)||"";
-  let res=await doFetch(payload,pw);
-  if(res.status===401){
-    pw=(prompt("Enter the team access password for this app:")||"").trim();
-    sessionStorage.setItem(SS.pw,pw);
-    res=await doFetch(payload,pw);
-  }
-  const data=await res.json().catch(()=>({}));
-  if(!res.ok) throw new Error(data.error||("Request failed ("+res.status+")"));
+  const model=localStorage.getItem("ie_model")||"claude-sonnet-4-6";
+  const body={system,user,model,max_tokens:opts.max_tokens||2400};
+  if(opts.applyBrandVoice===false) body.applyBrandVoice=false;
+  const data=await api("/api/generate",{method:"POST",body});
   return (data.text||"").trim();
 }
-
-/* ---------- prompt building ---------- */
 function buildPrompt(){
   const p=profiles.find(x=>x.id===$("#voiceSelect").value);
   const type=state.type, len=LEN[$("#length").value][type];
-  const audience=$("#audience").value.trim();
-  const input=$("#topic").value.trim();
-  const source=$("#source").value.trim();
-
-  let sys=`You are a ghostwriter for employee thought-leadership content. You write so convincingly in another person's voice that their own colleagues would believe they wrote it. You never invent facts, statistics, quotes, clients, or results — if a detail isn't supplied, you write around it or keep it general. Everything you produce is a draft for the person to review before publishing.\n\n# Voice to emulate\n`;
-  if(p){
-    sys+=`Name: ${p.name}\n`;
-    if(p.role) sys+=`Role: ${p.role}\n`;
-    if(p.topics) sys+=`Areas of expertise: ${p.topics}\n`;
-    if(p.notes) sys+=`Voice notes: ${p.notes}\n`;
-    if(p.sample) sys+=`\nAuthentic writing sample — match this rhythm, sentence length, and personality closely:\n"""\n${p.sample}\n"""\n`;
-    else sys+=`\n(No writing samples yet — infer a credible, grounded, human professional voice from the role and keep it natural.)\n`;
-  } else sys+=`(No specific person selected — write in a credible, grounded, human professional voice.)\n`;
-
+  const audience=$("#audience").value.trim(), input=$("#topic").value.trim(), source=$("#source").value.trim();
+  let sys=`You are a ghostwriter for employee thought-leadership content. You write so convincingly in another person's voice that their colleagues would believe they wrote it. Never invent facts, statistics, quotes, clients, or results. Everything is a draft for review before publishing.\n\n# Voice to emulate\n`;
+  if(p){ sys+=`Name: ${p.name}\n`; if(p.role)sys+=`Role: ${p.role}\n`; if(p.topics)sys+=`Areas of expertise: ${p.topics}\n`; if(p.notes)sys+=`Voice notes: ${p.notes}\n`;
+    if(p.sample)sys+=`\nAuthentic writing sample — match this rhythm and personality:\n"""\n${p.sample}\n"""\n`; else sys+=`\n(No samples yet — infer a credible, grounded, human voice from the role.)\n`;
+  } else sys+=`(No specific person selected — credible, grounded, human professional voice.)\n`;
   sys+=`\n# What to write\nWrite ${GUIDE[type]}\nTarget length: ${len}.\n`;
-  if(audience) sys+=`Intended audience: ${audience}.\n`;
-  if(VISUAL_TYPES.includes(type)) sys+=`\nAfter the piece, output a line with exactly "===VISUAL===" then ONE sentence suggesting an on-brand visual to pair with it.\n`;
-  sys+=`\n# Hard rules\n- Sound human and specifically like the person above — not generic AI or a marketing department.\n- No buzzword soup, no "in today's fast-paced world", no empty hype.\n- Do not fabricate numbers, names, clients, or results.\n- Return ONLY the finished piece (plus the visual line if asked). No preamble or labels like "Here's your post".`;
-
+  if(audience)sys+=`Intended audience: ${audience}.\n`;
+  if(VISUAL_TYPES.includes(type))sys+=`\nAfter the piece, output a line with exactly "===VISUAL===" then ONE sentence suggesting an on-brand visual.\n`;
+  sys+=`\n# Hard rules\n- Sound human and specifically like the person above.\n- No buzzword soup, no hype.\n- Do not fabricate numbers, names, clients, or results.\n- Return ONLY the finished piece (plus the visual line if asked).`;
   let user;
   if(["comment","repurpose","hottake","transcript"].includes(type)){
-    const labelMap={comment:"the post being replied to",repurpose:"the long piece to repurpose",hottake:"the article/headline/quote to react to",transcript:"the transcript / notes"};
-    user=`Here is ${labelMap[type]}:\n\n"""\n${input||"(none provided)"}\n"""`;
-  } else {
-    user=`Write the piece about: ${input||"(choose a strong, specific topic within their expertise)"}`;
-  }
-  if(source) user+=`\n\nGround it in this reference and do not invent facts beyond it:\n"""\n${source}\n"""`;
+    const m={comment:"the post being replied to",repurpose:"the long piece to repurpose",hottake:"the article/headline/quote to react to",transcript:"the transcript / notes"};
+    user=`Here is ${m[type]}:\n\n"""\n${input||"(none provided)"}\n"""`;
+  } else user=`Write the piece about: ${input||"(choose a strong, specific topic within their expertise)"}`;
+  if(source)user+=`\n\nGround it in this reference and do not invent facts beyond it:\n"""\n${source}\n"""`;
   return {sys,user,type};
 }
-
-/* ---------- draft cards ---------- */
-function splitVisual(text){
-  const i=text.indexOf("===VISUAL===");
-  if(i===-1) return {body:text,visual:""};
-  return {body:text.slice(0,i).trim(), visual:text.slice(i+12).trim()};
+function splitVisual(t){const i=t.indexOf("===VISUAL===");return i===-1?{body:t,visual:""}:{body:t.slice(0,i).trim(),visual:t.slice(i+12).trim()};}
+function fmtCount(el,c,type){const len=el.textContent.length;
+  if(LINKEDIN_TYPES.includes(type)){const over=len>3000;c.innerHTML=`${len.toLocaleString()} characters · LinkedIn shows ~210 before “see more”`+(over?` · <span class="over">over 3,000 limit</span>`:``);}
+  else{const w=el.textContent.trim().split(/\s+/).filter(Boolean).length;c.textContent=`${w.toLocaleString()} words · ${len.toLocaleString()} characters`;}
 }
-function fmtCount(el,countEl,type){
-  const len=el.textContent.length;
-  if(LINKEDIN_TYPES.includes(type)){
-    const over=len>3000;
-    countEl.innerHTML=`${len.toLocaleString()} characters · LinkedIn shows ~210 before “see more” — keep the hook up top`+(over?` · <span class="over">over LinkedIn's 3,000 limit</span>`:``);
+function reviewedCopy(text,type,onDone){
+  const mode=reviewModes[type]||"self";
+  if(mode==="self"){
+    if(!confirm("Confirm you've reviewed this for accuracy — no invented stats, names, or claims — before copying.")) return;
   } else {
-    const words=el.textContent.trim().split(/\s+/).filter(Boolean).length;
-    countEl.textContent=`${words.toLocaleString()} words · ${len.toLocaleString()} characters`;
+    if(!confirm("This content type uses the approver queue. Copying before approval is discouraged. Copy anyway?")) return;
   }
+  navigator.clipboard&&navigator.clipboard.writeText(text); if(onDone)onDone();
 }
 function draftCard(text,label,type){
   const {body:bodyText,visual}=splitVisual(text);
   const w=document.createElement("div"); w.className="draft";
+  const mode=reviewModes[type]||"self";
   w.innerHTML=`<div class="meta"><span class="dot"></span> ${label} · review before posting</div>
-    <div class="body" contenteditable="true"></div>
-    <div class="count"></div>
+    <div class="body" contenteditable="true"></div><div class="count"></div>
     ${visual?`<div class="visual"><b>Visual idea:</b> ${esc(visual)}</div>`:``}
     <div class="acts">
       <button class="btn secondary sm c">Copy</button>
       <button class="btn ghost sm r">Refine</button>
-      <button class="btn ghost sm s">Save</button>
+      <button class="btn ghost sm s">${mode==="approver"?"Save &amp; submit":"Save"}</button>
     </div>`;
   const body=w.querySelector(".body"), count=w.querySelector(".count");
   body.textContent=bodyText; fmtCount(body,count,type);
   body.addEventListener("input",()=>fmtCount(body,count,type));
-  w.querySelector(".c").onclick=function(){navigator.clipboard&&navigator.clipboard.writeText(body.textContent);this.textContent="Copied";setTimeout(()=>this.textContent="Copy",1200);};
-  w.querySelector(".s").onclick=function(){saved.unshift({id:uid(),type,label,text:body.textContent,when:Date.now()});store(LS.saved,saved);renderSaved();this.textContent="Saved ✓";setTimeout(()=>this.textContent="Save",1400);};
+  w.querySelector(".c").onclick=function(){const b=this;reviewedCopy(body.textContent,type,()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy",1200);});};
+  w.querySelector(".s").onclick=async function(){
+    const btn=this; btn.disabled=true; btn.textContent="Saving…";
+    try{ await api("/api/drafts",{method:"POST",body:{draft:{id:uid(),type,body:body.textContent,visual,status:mode==="approver"?"in_review":"draft"}}});
+      btn.textContent=mode==="approver"?"Submitted ✓":"Saved ✓"; await loadDrafts(); setTimeout(()=>{btn.disabled=false;btn.textContent=mode==="approver"?"Save & submit":"Save";},1400);
+    }catch(e){ btn.disabled=false; btn.textContent="Save"; alert("Save failed: "+e.message); }
+  };
   w.querySelector(".r").onclick=async function(){
-    const instr=prompt("How should I refine this draft?\n(e.g. 'punchier opening', 'shorter', 'less formal', 'add a concrete example')");
-    if(!instr) return;
+    const instr=prompt("How should I refine this draft?\n(e.g. 'punchier opening', 'shorter', 'add a concrete example')"); if(!instr)return;
     const btn=this; btn.disabled=true; btn.textContent="Refining…";
-    try{
-      const {sys}=buildPrompt();
-      const out=await callServer(sys,`Here is a current draft:\n\n"""\n${body.textContent}\n"""\n\nRevise it per this instruction: ${instr}\n\nReturn only the revised piece`+(VISUAL_TYPES.includes(type)?` plus the ===VISUAL=== line.`:`.`));
+    try{ const {sys}=buildPrompt();
+      const out=await callServer(sys,`Here is a current draft:\n\n"""\n${body.textContent}\n"""\n\nRevise per: ${instr}\n\nReturn only the revised piece`+(VISUAL_TYPES.includes(type)?` plus the ===VISUAL=== line.`:`.`));
       w.replaceWith(draftCard(out,"Draft ↻",type));
-    }catch(e){btn.disabled=false;btn.textContent="Refine";alert("Refine failed: "+e.message);}
+    }catch(e){ btn.disabled=false; btn.textContent="Refine"; alert("Refine failed: "+e.message); }
   };
   return w;
 }
-
 $("#generateBtn").onclick=async function(){
   const err=$("#composeErr"); err.style.display="none";
-  const {sys,user,type}=buildPrompt();
   if(!$("#topic").value.trim()){err.textContent="Give it something to work with in the box above.";err.style.display="block";return;}
-  const n=parseInt($("#variations").value,10);
+  const {sys,user,type}=buildPrompt(); const n=parseInt($("#variations").value,10);
   const btn=this; btn.disabled=true; btn.innerHTML='<span class="spin"></span>Generating…';
   const out=$("#output"); out.innerHTML="";
-  try{
-    for(let i=1;i<=n;i++){
-      const seed=n>1?`\n\n(This is variation ${i} of ${n} — make it meaningfully different in angle or opening from the others.)`:"";
-      const text=await callServer(sys,user+seed,{max_tokens:type==="longform"?3600:2400});
-      out.appendChild(draftCard(text,"Draft "+i,type));
-    }
-  }catch(e){out.innerHTML="";err.textContent="Generation failed: "+e.message;err.style.display="block";}
-  finally{btn.disabled=false;btn.textContent="Generate";}
+  try{ for(let i=1;i<=n;i++){ const seed=n>1?`\n\n(Variation ${i} of ${n} — meaningfully different angle/opening.)`:"";
+    out.appendChild(draftCard(await callServer(sys,user+seed,{max_tokens:type==="longform"?3600:2400}),"Draft "+i,type)); }
+  }catch(e){ out.innerHTML=""; err.textContent="Generation failed: "+e.message; err.style.display="block"; }
+  finally{ btn.disabled=false; btn.textContent="Generate"; }
 };
-
 $("#hooksBtn").onclick=async function(){
-  const err=$("#composeErr"); err.style.display="none";
-  const topic=$("#topic").value.trim();
-  if(!topic){err.textContent="Add a topic first, then I'll give you hooks for it.";err.style.display="block";return;}
+  const err=$("#composeErr"); err.style.display="none"; const topic=$("#topic").value.trim();
+  if(!topic){err.textContent="Add a topic first, then I'll give you hooks.";err.style.display="block";return;}
   const p=profiles.find(x=>x.id===$("#voiceSelect").value);
-  const btn=this; btn.disabled=true; btn.textContent="Thinking…";
-  const out=$("#output");
-  try{
-    const sys=`You write punchy, specific opening lines (hooks) for LinkedIn posts${p?` in the voice of ${p.name}`:""}. No clickbait, no hype.`;
-    const text=await callServer(sys,`Give me 5 distinct first-line hooks for a post about: ${topic}\n\nReturn only the 5 hooks, one per line, numbered 1-5. Nothing else.`,{max_tokens:500});
+  const btn=this; btn.disabled=true; btn.textContent="Thinking…"; const out=$("#output");
+  try{ const text=await callServer(`You write punchy, specific LinkedIn hook lines${p?" in the voice of "+p.name:""}. No clickbait.`,`Give me 5 distinct first-line hooks for a post about: ${topic}\n\nReturn only the 5 hooks, numbered 1-5, nothing else.`,{max_tokens:500});
     const lines=text.split("\n").map(l=>l.replace(/^\s*\d+[\.\)]\s*/,"").trim()).filter(Boolean).slice(0,5);
     const card=document.createElement("div"); card.className="draft";
-    card.innerHTML=`<div class="meta"><span class="dot"></span> 5 hook options · pick one and build from it</div>
-      <ul class="hooks">${lines.map((h,i)=>`<li><span class="n">${i+1}</span><span>${esc(h)}</span></li>`).join("")}</ul>
-      <div class="acts"><button class="btn secondary sm ca">Copy all</button></div>`;
+    card.innerHTML=`<div class="meta"><span class="dot"></span> 5 hook options · pick one and build from it</div><ul class="hooks">${lines.map((h,i)=>`<li><span class="n">${i+1}</span><span>${esc(h)}</span></li>`).join("")}</ul><div class="acts"><button class="btn secondary sm ca">Copy all</button></div>`;
     card.querySelector(".ca").onclick=function(){navigator.clipboard&&navigator.clipboard.writeText(lines.map((h,i)=>(i+1)+". "+h).join("\n"));this.textContent="Copied";setTimeout(()=>this.textContent="Copy all",1200);};
     out.innerHTML=""; out.appendChild(card);
-  }catch(e){err.textContent="Hooks failed: "+e.message;err.style.display="block";}
-  finally{btn.disabled=false;btn.textContent="Give me 5 hooks";}
+  }catch(e){ err.textContent="Hooks failed: "+e.message; err.style.display="block"; }
+  finally{ btn.disabled=false; btn.textContent="Give me 5 hooks"; }
 };
 
-/* ---------- profiles ---------- */
-function fillVoiceSelect(){
-  const sel=$("#voiceSelect"); const prev=sel.value;
-  sel.innerHTML=profiles.map(p=>`<option value="${p.id}">${esc(p.name)}${p.role?" — "+esc(p.role):""}</option>`).join("");
-  if(prev&&profiles.some(p=>p.id===prev))sel.value=prev;
-}
+/* ---------- profiles (shared, via API) ---------- */
+async function loadProfiles(){ try{ profiles=(await api("/api/profiles")).profiles||[]; }catch(e){ profiles=[]; } renderProfiles(); }
+function fillVoiceSelect(){ const sel=$("#voiceSelect"); const prev=sel.value;
+  sel.innerHTML=profiles.length?profiles.map(p=>`<option value="${p.id}">${esc(p.name)}${p.role?" — "+esc(p.role):""}</option>`).join(""):'<option value="">No profiles yet — add one</option>';
+  if(prev&&profiles.some(p=>p.id===prev))sel.value=prev; }
 function renderProfiles(){
-  $("#profileList").innerHTML=profiles.map(p=>`
-    <div class="profile">
-      <div class="av">${esc((p.name||"?").charAt(0))}</div>
-      <div><div class="nm">${esc(p.name||"Untitled")}</div><div class="ro">${esc(p.role||"")}${p.topics?" · "+esc(p.topics):""}</div></div>
-      <div class="spacer"></div>
-      <button class="btn ghost sm" data-edit="${p.id}">Edit</button>
-    </div>`).join("");
+  const list=$("#profileList");
+  list.innerHTML=profiles.length?profiles.map(p=>`<div class="profile"><div class="av">${esc((p.name||"?").charAt(0))}</div>
+    <div><div class="nm">${esc(p.name)}</div><div class="ro">${esc(p.role||"")}${p.topics?" · "+esc(p.topics):""}</div></div>
+    <div class="spacer"></div><button class="btn ghost sm" data-edit="${p.id}">Edit</button></div>`).join(""):'<div class="empty">No voice profiles yet. Add one so drafts sound like the real person.</div>';
   $$("[data-edit]").forEach(b=>b.onclick=()=>openProfile(b.dataset.edit));
   fillVoiceSelect();
 }
 let editingId=null;
-function openProfile(id){
-  const p=profiles.find(x=>x.id===id); editingId=p?p.id:null;
-  $("#pmTitle").textContent=p?"Edit voice profile":"New voice profile";
-  $("#pmPaste").value="";
-  $("#pmName").value=p?p.name:""; $("#pmRole").value=p?p.role:""; $("#pmTopics").value=p?p.topics:"";
-  $("#pmNotes").value=p?p.notes:""; $("#pmSample").value=p?p.sample:"";
-  $("#pmDelete").style.display=p?"inline-block":"none";
-  $("#profileModal").classList.add("open");
-}
+function openProfile(id){ const p=profiles.find(x=>x.id===id); editingId=p?p.id:null;
+  $("#pmTitle").textContent=p?"Edit voice profile":"New voice profile"; $("#pmPaste").value="";
+  $("#pmName").value=p?p.name:""; $("#pmRole").value=p?p.role:""; $("#pmTopics").value=p?p.topics:""; $("#pmNotes").value=p?p.notes:""; $("#pmSample").value=p?p.sample:"";
+  $("#pmDelete").style.display=p?"inline-block":"none"; $("#profileModal").classList.add("open"); }
 $("#newProfileBtn").onclick=()=>openProfile(null);
-$("#pmBuild").onclick=async function(){
-  const txt=$("#pmPaste").value.trim(); if(!txt){$("#pmPaste").focus();return;}
+$("#pmBuild").onclick=async function(){ const txt=$("#pmPaste").value.trim(); if(!txt){$("#pmPaste").focus();return;}
   const btn=this; btn.disabled=true; btn.innerHTML='<span class="spin"></span>Reading their voice…';
-  try{
-    const sys=`You analyze a person's real writing samples and produce a concise voice profile for a ghostwriting tool. Output EXACTLY these three sections, each on its own block, and nothing else:\nTOPICS: comma-separated topics they tend to write about\nNOTES: 2-3 sentences on tone, rhythm, sentence length, quirks, and do's/don'ts\nSAMPLE: the single strongest representative paragraph from their writing, copied verbatim`;
-    const out=await callServer(sys,`Here are the writing samples:\n\n"""\n${txt}\n"""`,{applyBrandVoice:false,max_tokens:900});
-    const grab=(k)=>{const m=out.match(new RegExp(k+":\\s*([\\s\\S]*?)(?=\\n[A-Z]+:|$)"));return m?m[1].trim():"";};
-    const topics=grab("TOPICS"), notes=grab("NOTES"), sample=grab("SAMPLE");
-    if(topics&&!$("#pmTopics").value) $("#pmTopics").value=topics;
-    if(notes) $("#pmNotes").value=notes;
-    if(sample) $("#pmSample").value=sample;
-  }catch(e){alert("Couldn't build the profile: "+e.message);}
-  finally{btn.disabled=false;btn.textContent="Build voice profile from posts";}
+  try{ const out=await callServer(`You analyze a person's real writing samples and produce a concise voice profile. Output EXACTLY these sections, nothing else:\nTOPICS: comma-separated topics\nNOTES: 2-3 sentences on tone, rhythm, quirks, do's/don'ts\nSAMPLE: the single strongest representative paragraph, verbatim`,`Writing samples:\n\n"""\n${txt}\n"""`,{applyBrandVoice:false,max_tokens:900});
+    const grab=k=>{const m=out.match(new RegExp(k+":\\s*([\\s\\S]*?)(?=\\n[A-Z]+:|$)"));return m?m[1].trim():"";};
+    if(grab("TOPICS")&&!$("#pmTopics").value)$("#pmTopics").value=grab("TOPICS");
+    if(grab("NOTES"))$("#pmNotes").value=grab("NOTES"); if(grab("SAMPLE"))$("#pmSample").value=grab("SAMPLE");
+  }catch(e){ alert("Couldn't build the profile: "+e.message); }
+  finally{ btn.disabled=false; btn.textContent="Build voice profile from posts"; }
 };
-$("#pmSave").onclick=()=>{
-  const name=$("#pmName").value.trim(); if(!name){$("#pmName").focus();return;}
-  const rec={id:editingId||uid(),name,role:$("#pmRole").value.trim(),topics:$("#pmTopics").value.trim(),notes:$("#pmNotes").value.trim(),sample:$("#pmSample").value.trim()};
-  const i=profiles.findIndex(x=>x.id===rec.id);
-  if(i>=0)profiles[i]=rec; else profiles.push(rec);
-  store(LS.profiles,profiles); renderProfiles();
-  $("#voiceSelect").value=rec.id; $("#profileModal").classList.remove("open");
-};
-$("#pmDelete").onclick=()=>{profiles=profiles.filter(x=>x.id!==editingId);store(LS.profiles,profiles);renderProfiles();$("#profileModal").classList.remove("open");};
+$("#pmSave").onclick=async()=>{ const name=$("#pmName").value.trim(); if(!name){$("#pmName").focus();return;}
+  const profile={id:editingId||uid(),name,role:$("#pmRole").value.trim(),topics:$("#pmTopics").value.trim(),notes:$("#pmNotes").value.trim(),sample:$("#pmSample").value.trim()};
+  try{ await api("/api/profiles",{method:"POST",body:{profile}}); await loadProfiles(); $("#voiceSelect").value=profile.id; $("#profileModal").classList.remove("open"); }
+  catch(e){ alert("Save failed: "+e.message); } };
+$("#pmDelete").onclick=async()=>{ try{ await api("/api/profiles?id="+encodeURIComponent(editingId),{method:"DELETE"}); await loadProfiles(); $("#profileModal").classList.remove("open"); }catch(e){ alert("Delete failed: "+e.message); } };
 
-/* ---------- saved ---------- */
+/* ---------- saved drafts ---------- */
+async function loadDrafts(){ try{ myDrafts=(await api("/api/drafts")).drafts||[]; }catch(e){ myDrafts=[]; }
+  const badge=$("#savedBadge"); if(myDrafts.length){badge.style.display="inline-block";badge.textContent=myDrafts.length;}else badge.style.display="none";
+  renderSaved(); }
 function renderSaved(){
-  const badge=$("#savedBadge");
-  if(saved.length){badge.style.display="inline-block";badge.textContent=saved.length;} else badge.style.display="none";
   const list=$("#savedList");
-  if(!saved.length){list.innerHTML='<div class="empty">Nothing saved yet. Hit Save on any draft and it lands here.</div>';return;}
-  list.innerHTML=saved.map(s=>`
-    <div class="saveditem">
-      <div class="h"><span class="tag">${esc(s.label)}</span> <span>${new Date(s.when).toLocaleDateString()}</span></div>
-      <div class="txt">${esc(s.text)}</div>
-      <div class="acts"><button class="btn secondary sm" data-copy="${s.id}">Copy</button><button class="btn ghost sm" data-del="${s.id}">Delete</button></div>
-    </div>`).join("");
-  list.querySelectorAll("[data-copy]").forEach(b=>b.onclick=function(){const s=saved.find(x=>x.id===b.dataset.copy);navigator.clipboard&&navigator.clipboard.writeText(s.text);this.textContent="Copied";setTimeout(()=>this.textContent="Copy",1200);});
-  list.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{saved=saved.filter(x=>x.id!==b.dataset.del);store(LS.saved,saved);renderSaved();});
+  if(!myDrafts.length){ list.innerHTML='<div class="empty">Nothing saved yet. Hit Save on any draft and it lands here.</div>'; return; }
+  list.innerHTML=myDrafts.map(d=>`<div class="saveditem">
+    <div class="h"><span class="tag">${esc(TYPE_NAMES[d.type]||d.type)}</span> <span class="stat ${d.status}">${(d.status||"draft").replace("_"," ")}</span> <span>${new Date(d.updated_at).toLocaleDateString()}</span></div>
+    <div class="txt">${esc(d.body)}</div>
+    ${d.review_note?`<div class="note-in"><b>Reviewer:</b> ${esc(d.review_note)}</div>`:``}
+    <div class="acts">
+      <button class="btn secondary sm" data-copy="${d.id}">Copy</button>
+      ${(reviewModes[d.type]==="approver"&&d.status!=="in_review"&&d.status!=="approved")?`<button class="btn ghost sm" data-submit="${d.id}">Submit for review</button>`:``}
+      <button class="btn ghost sm" data-del="${d.id}">Delete</button>
+    </div></div>`).join("");
+  list.querySelectorAll("[data-copy]").forEach(b=>b.onclick=function(){const d=myDrafts.find(x=>x.id===b.dataset.copy);reviewedCopy(d.body,d.type,()=>{this.textContent="Copied";setTimeout(()=>this.textContent="Copy",1200);});});
+  list.querySelectorAll("[data-submit]").forEach(b=>b.onclick=async()=>{try{await api("/api/drafts",{method:"PATCH",body:{id:b.dataset.submit,action:"submit"}});await loadDrafts();}catch(e){alert(e.message);}});
+  list.querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{try{await api("/api/drafts?id="+encodeURIComponent(b.dataset.del),{method:"DELETE"});await loadDrafts();}catch(e){alert(e.message);}});
 }
 
-renderProfiles();
-renderSaved();
+/* ---------- review queue (approvers) ---------- */
+async function loadReviewQueue(){ if(!me.isApprover)return; let q=[];
+  try{ q=(await api("/api/drafts?queue=1")).drafts||[]; }catch(e){ q=[]; }
+  const badge=$("#reviewBadge"); if(q.length){badge.style.display="inline-block";badge.textContent=q.length;}else badge.style.display="none";
+  const list=$("#reviewList");
+  if(!q.length){ list.innerHTML='<div class="empty">Nothing waiting for review.</div>'; return; }
+  list.innerHTML=q.map(d=>`<div class="saveditem">
+    <div class="h"><span class="tag">${esc(TYPE_NAMES[d.type]||d.type)}</span> <span>by ${esc(d.author_name||d.author_email)}</span></div>
+    <div class="txt" style="max-height:none">${esc(d.body)}</div>
+    <div class="acts"><button class="btn sm" data-ok="${d.id}">Approve</button><button class="btn ghost sm" data-no="${d.id}">Request changes</button></div></div>`).join("");
+  list.querySelectorAll("[data-ok]").forEach(b=>b.onclick=async()=>{try{await api("/api/drafts",{method:"PATCH",body:{id:b.dataset.ok,action:"approve"}});await loadReviewQueue();}catch(e){alert(e.message);}});
+  list.querySelectorAll("[data-no]").forEach(b=>b.onclick=async()=>{const note=prompt("What changes are needed?");if(note===null)return;try{await api("/api/drafts",{method:"PATCH",body:{id:b.dataset.no,action:"request_changes",note}});await loadReviewQueue();}catch(e){alert(e.message);}});
+}
+
+boot();
 </script>
 </body>
 </html>
