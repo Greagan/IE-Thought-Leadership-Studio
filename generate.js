@@ -1,15 +1,13 @@
-// Serverless function for Vercel.
-// Holds the company Anthropic API key server-side; requires Google sign-in
-// (restricted to your Workspace domain). Applies the Imprint Engine brand
-// voice to every generation, except analysis calls (building a voice profile).
+// Serverless function for Vercel — simple version (no Google sign-in, no database).
+// Holds the company Anthropic API key server-side and applies the Imprint Engine
+// brand voice to every generation (except analysis calls used to build a voice profile).
 //
-// Required env vars: ANTHROPIC_API_KEY, GOOGLE_CLIENT_ID. Optional: ALLOWED_DOMAIN.
+// Required env var: ANTHROPIC_API_KEY.
+// Optional env var:  APP_PASSWORD  -> if set, users must enter it once (shared team password).
+//                    If unset, the app is open (fine before the key is added; add a password
+//                    once the key is live so the URL isn't an open wallet).
 //
-// Note: the brand voice is inlined below (rather than imported from a separate
-// file) so this function has no local-file dependencies beyond _lib — that keeps
-// the build simple and reliable. To change the company voice, edit BRAND_VOICE here.
-import { requireUser } from "./_lib/auth.js";
-import { audit } from "./_lib/db.js";
+// No imports — self-contained so it always builds.
 
 const BRAND_VOICE = `# Imprint Engine brand voice (apply to everything you write)
 
@@ -58,17 +56,20 @@ This is the company's house voice. It sits UNDER the specific person's individua
 export default async function handler(req, res) {
   if (req.method !== "POST") { res.status(405).json({ error: "Method not allowed" }); return; }
 
-  let user;
-  try { user = await requireUser(req); }
-  catch (e) { res.status(e.status || 401).json({ error: e.message || "Unauthorized" }); return; }
-
   const API_KEY = process.env.ANTHROPIC_API_KEY;
-  if (!API_KEY) { res.status(500).json({ error: "Server is not configured: ANTHROPIC_API_KEY missing." }); return; }
+  const APP_PASSWORD = process.env.APP_PASSWORD; // optional
+
+  if (!API_KEY) { res.status(500).json({ error: "Server is not configured: ANTHROPIC_API_KEY is missing." }); return; }
+
+  if (APP_PASSWORD) {
+    const provided = req.headers["x-app-password"] || "";
+    if (provided !== APP_PASSWORD) { res.status(401).json({ error: "Unauthorized — wrong or missing access password." }); return; }
+  }
 
   let body = req.body;
   if (typeof body === "string") { try { body = JSON.parse(body); } catch (e) { body = {}; } }
-  const { system, user: userMsg, model, max_tokens } = body || {};
-  if (!userMsg || typeof userMsg !== "string") { res.status(400).json({ error: "Missing 'user' content in request." }); return; }
+  const { system, user, model, max_tokens } = body || {};
+  if (!user || typeof user !== "string") { res.status(400).json({ error: "Missing 'user' content in request." }); return; }
 
   const ALLOWED = ["claude-opus-4-8", "claude-sonnet-4-6", "claude-haiku-4-5-20251001"];
   const useModel = ALLOWED.includes(model) ? model : "claude-sonnet-4-6";
@@ -85,7 +86,7 @@ export default async function handler(req, res) {
         model: useModel,
         max_tokens: Math.min(Number(max_tokens) || 2400, 4000),
         system: fullSystem,
-        messages: [{ role: "user", content: userMsg }]
+        messages: [{ role: "user", content: user }]
       })
     });
     const data = await r.json();
@@ -95,7 +96,6 @@ export default async function handler(req, res) {
       return;
     }
     const text = (data.content || []).filter(b => b.type === "text").map(b => b.text).join("").trim();
-    audit(user.email, applyVoice ? "generated" : "analyzed", "-", "model=" + useModel);
     res.status(200).json({ text });
   } catch (e) {
     res.status(500).json({ error: "Request failed: " + (e && e.message ? e.message : String(e)) });

@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Imprint Engine · Thought Leadership Studio</title>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
   :root{
     --purple:#6C2BD9; --purple-dk:#5620AE;
@@ -22,23 +21,12 @@
   textarea,select,input{font-family:inherit;font-size:14px}
   .pixelgrid{background-image:linear-gradient(rgba(255,255,255,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.10) 1px,transparent 1px);background-size:14px 14px}
 
-  /* sign-in gate */
-  #gate{position:fixed;inset:0;background:var(--purple);color:#fff;display:flex;align-items:center;justify-content:center;z-index:100}
-  #gate .box{background:#fff;color:var(--ink);border-radius:18px;padding:34px 30px;max-width:380px;width:92%;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.3)}
-  #gate .mark{width:46px;height:46px;border-radius:11px;background:var(--purple);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;letter-spacing:-1px;margin-bottom:14px}
-  #gate h1{font-size:19px;margin:0 0 4px}
-  #gate p{color:var(--muted);font-size:13px;margin:0 0 20px}
-  #gbtn{display:flex;justify-content:center;min-height:44px}
-  #gateErr{color:var(--red-dk);font-size:12.5px;margin-top:14px;display:none}
-
   header.top{display:flex;align-items:center;gap:12px;padding:13px 24px;border-bottom:1px solid var(--line);background:var(--purple);color:#fff;position:sticky;top:0;z-index:20;flex-wrap:wrap}
   .logo{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.5px;font-size:16px;text-transform:uppercase}
   .logo .mark{width:30px;height:30px;border-radius:7px;background:#fff;color:var(--purple);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;letter-spacing:-1px}
   .logo .dot{color:var(--red)}
   .brand small{display:block;color:rgba(255,255,255,.82);font-weight:400;font-size:11px;letter-spacing:.3px;text-transform:none}
   .top .spacer{flex:1}
-  .who{display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(255,255,255,.9)}
-  .who img{width:26px;height:26px;border-radius:50%}
   .tabbtn{background:transparent;border:1px solid transparent;color:rgba(255,255,255,.82);padding:7px 13px;border-radius:999px;font-size:13.5px;font-weight:500}
   .tabbtn:hover{color:#fff}.tabbtn.active{background:#fff;color:var(--purple);border-color:#fff;font-weight:600}
   .tabbtn .badge{background:var(--red);color:#fff;border-radius:999px;font-size:10px;font-weight:700;padding:1px 6px;margin-left:5px}
@@ -84,12 +72,6 @@
   .draft .acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
   .editnote{font-size:11px;color:var(--faint);margin-top:6px}
 
-  .stat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:999px}
-  .stat.draft{background:var(--panel-2);color:var(--muted)}
-  .stat.in_review{background:rgba(201,122,18,.14);color:#9a5d10}
-  .stat.approved{background:rgba(31,157,107,.14);color:#157a51}
-  .stat.changes_requested{background:rgba(245,51,63,.12);color:var(--red-dk)}
-
   .hooks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
   .hooks li{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 12px;font-size:14px;display:flex;gap:8px;align-items:flex-start}
   .hooks li .n{color:var(--purple);font-weight:800;flex:0 0 auto}
@@ -103,7 +85,6 @@
   .saveditem .tag{background:rgba(108,43,217,.1);color:var(--purple-dk);border-radius:999px;padding:2px 8px}
   .saveditem .txt{white-space:pre-wrap;font-size:13.5px;color:var(--ink);max-height:5.2em;overflow:hidden}
   .saveditem .acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-  .note-in{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12.5px;color:var(--ink-soft);margin-top:8px}
 
   .spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:7px}
   @keyframes sp{to{transform:rotate(360deg)}}
@@ -114,38 +95,21 @@
   .modal .foot{display:flex;justify-content:flex-end;gap:10px;margin-top:8px}
   .autobox{background:rgba(108,43,217,.05);border:1px dashed var(--line-2);border-radius:var(--radius-sm);padding:12px;margin-bottom:14px}.autobox .lab{margin-bottom:6px}
   .banner{background:rgba(108,43,217,.06);border:1px solid rgba(108,43,217,.25);color:var(--purple-dk);padding:10px 13px;border-radius:var(--radius-sm);font-size:12.5px;margin-bottom:16px}
-  .modes{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
-  .moderow{display:flex;align-items:center;gap:10px}.moderow span{flex:1;font-size:13.5px}
   .note{max-width:1080px;margin:0 auto;padding:0 24px 40px;color:var(--muted);font-size:12px}
 </style>
 </head>
 <body>
-
-  <!-- SIGN-IN GATE -->
-  <div id="gate">
-    <div class="box">
-      <div class="mark">IE</div>
-      <h1>Thought Leadership Studio</h1>
-      <p id="gateSub">Sign in with your Imprint Engine account.</p>
-      <div id="gbtn"></div>
-      <div id="gateErr"></div>
-    </div>
-  </div>
-
-  <header class="top pixelgrid" style="display:none" id="appHeader">
+  <header class="top pixelgrid">
     <div class="logo"><span class="mark">IE</span> Imprint Engine<span class="dot">.</span></div>
     <div class="brand"><small>Thought Leadership Studio</small></div>
     <div class="spacer"></div>
-    <span class="who" id="who"></span>
     <button class="tabbtn active" data-tab="compose">Compose</button>
     <button class="tabbtn" data-tab="saved">Saved <span class="badge" id="savedBadge" style="display:none">0</span></button>
     <button class="tabbtn" data-tab="profiles">Voice profiles</button>
-    <button class="tabbtn" data-tab="review" id="reviewTabBtn" style="display:none">Review <span class="badge" id="reviewBadge" style="display:none">0</span></button>
     <button class="iconbtn" id="openSettings">Settings</button>
   </header>
 
-  <main id="appMain" style="display:none">
-    <!-- COMPOSE -->
+  <main>
     <section class="view active" id="view-compose">
       <div class="grid">
         <div class="card">
@@ -187,40 +151,28 @@
       </div>
     </section>
 
-    <!-- SAVED -->
     <section class="view" id="view-saved">
       <div class="card" style="max-width:760px;margin:0 auto">
         <h2 style="margin:0 0 4px">Saved drafts</h2>
-        <p class="hint">Your library, synced to your account.</p>
+        <p class="hint">Kept in this browser. (Cross-device sync comes with team sign-in later.)</p>
         <div class="saved" id="savedList"></div>
       </div>
     </section>
 
-    <!-- PROFILES -->
     <section class="view" id="view-profiles">
       <div class="card" style="max-width:760px;margin:0 auto">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
           <h2 style="margin:0">Voice profiles</h2>
           <button class="btn sm" id="newProfileBtn">+ New profile</button>
         </div>
-        <p class="hint">Shared across the team. Paste a few of someone's real posts and it writes the profile for you.</p>
+        <p class="hint">Build a profile once per person. Paste a few of their real posts and it writes the profile for you.</p>
         <div class="profiles" id="profileList"></div>
-      </div>
-    </section>
-
-    <!-- REVIEW (approvers) -->
-    <section class="view" id="view-review">
-      <div class="card" style="max-width:760px;margin:0 auto">
-        <h2 style="margin:0 0 4px">Review queue</h2>
-        <p class="hint">Drafts submitted for approval. Approve or request changes.</p>
-        <div class="saved" id="reviewList"></div>
       </div>
     </section>
   </main>
 
-  <p class="note" id="footNote" style="display:none">Drafts run through a secure Imprint Engine server with the brand voice applied automatically. Everything is a draft for human review before posting.</p>
+  <p class="note">Drafts run through a secure Imprint Engine server with the brand voice applied automatically. Everything is a draft for human review before posting.</p>
 
-  <!-- profile modal -->
   <div class="modal-bg" id="profileModal"><div class="modal">
     <h3 id="pmTitle">Voice profile</h3><p class="sub">How this person sounds. The more real their samples, the better the match.</p>
     <div class="autobox">
@@ -241,26 +193,17 @@
     </div>
   </div></div>
 
-  <!-- settings modal -->
   <div class="modal-bg" id="settingsModal"><div class="modal">
-    <h3>Settings</h3><p class="sub">Generation and review controls.</p>
-    <div class="banner">No API key needed — generation runs through a secure Imprint Engine server with the brand voice applied automatically.</div>
+    <h3>Settings</h3><p class="sub">How drafts are generated.</p>
+    <div class="banner">No API key needed here — generation runs through a secure Imprint Engine server. If the app asks for an access password, that's the shared team password.</div>
     <span class="lab">Model</span>
     <select id="model">
       <option value="claude-opus-4-8">Claude Opus 4.8 — highest quality</option>
       <option value="claude-sonnet-4-6" selected>Claude Sonnet 4.6 — balanced (recommended)</option>
       <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5 — fastest</option>
     </select>
-    <div id="approverSettings" style="display:none">
-      <hr style="border:none;border-top:1px solid var(--line);margin:16px 0">
-      <span class="lab">Review mode per content type</span>
-      <div class="modes" id="modeRows"></div>
-      <span class="lab">Approvers (one email per line)</span>
-      <textarea id="approversBox" placeholder="name@imprintengine.com"></textarea>
-      <div class="editnote">Approvers can change these settings and act on the review queue.</div>
-    </div>
     <div class="foot">
-      <button class="btn ghost sm" id="signOutBtn" style="margin-right:auto;border-color:rgba(245,51,63,.5);color:var(--red-dk)">Sign out</button>
+      <button class="btn ghost sm" id="signOutBtn" style="margin-right:auto;border-color:rgba(245,51,63,.5);color:var(--red-dk)">Forget password</button>
       <button class="btn ghost sm" id="setClose">Close</button>
       <button class="btn sm" id="setSave">Save</button>
     </div>
@@ -270,8 +213,20 @@
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const esc=s=>(s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const LS={profiles:"tls_profiles_v2",saved:"tls_saved",model:"tls_model"};
+const SS={pw:"tls_pw"};
+const load=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}};
+const store=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}};
 
-const TYPES=["linkedin","comment","repurpose","hottake","transcript","videoscript","longform","newsletter"];
+const SEED_PROFILES=[
+  {id:"schwandt",name:"Mike Schwandt",role:"Chief Marketing Officer",topics:"",notes:"",sample:""},
+  {id:"malam",name:"Scott Malam",role:"",topics:"",notes:"",sample:""},
+  {id:"pike",name:"Mike Pike",role:"",topics:"",notes:"",sample:""},
+  {id:"fillhouer",name:"Amy Fillhouer",role:"",topics:"",notes:"",sample:""},
+  {id:"debue",name:"RJ Debue",role:"",topics:"",notes:"",sample:""},
+  {id:"gilbertson",name:"Caleb Gilbertson",role:"",topics:"",notes:"",sample:""},
+  {id:"wilking",name:"Carl Wilking",role:"",topics:"",notes:"",sample:""}
+];
 const TYPE_NAMES={linkedin:"LinkedIn post",comment:"LinkedIn comment",repurpose:"Repurpose → many",hottake:"Hot take",transcript:"Transcript ghostwrite",videoscript:"Video script",longform:"Long-form article",newsletter:"Newsletter"};
 const LABELS={linkedin:"Topic / angle",comment:"Paste the post you're replying to",repurpose:"Paste the long piece to repurpose",hottake:"Paste the article, headline, or quote",transcript:"Paste the transcript or notes",videoscript:"Topic / angle (for a short video)",longform:"Topic / angle",newsletter:"Topic / angle"};
 const LINKEDIN_TYPES=["linkedin","comment","hottake","repurpose"];
@@ -292,121 +247,41 @@ const GUIDE={
   newsletter:"a newsletter email. Conversational, to a specific reader. First line 'Subject: ...'. One idea, scannable, warm sign-off."
 };
 
-let idToken=sessionStorage.getItem("ie_idtoken")||"";
-let me={email:"",name:"",picture:"",isApprover:false};
-let cfg={googleClientId:"",allowedDomain:"imprintengine.com"};
-let profiles=[], myDrafts=[], reviewModes={}, approvers=[];
+let profiles=load(LS.profiles,null)||SEED_PROFILES.slice();
+let saved=load(LS.saved,[]);
 let state={type:"linkedin"};
 
-/* ---------- API helper ---------- */
-async function api(path, opts){
-  opts=opts||{};
-  const headers=Object.assign({"content-type":"application/json"}, opts.headers||{});
-  if(idToken) headers["Authorization"]="Bearer "+idToken;
-  const res=await fetch(path,{method:opts.method||"GET",headers,body:opts.body?JSON.stringify(opts.body):undefined});
-  if(res.status===401){ showGate("Your session expired. Sign in again."); throw new Error("Session expired"); }
-  const data=await res.json().catch(()=>({}));
-  if(!res.ok) throw new Error(data.error||("Request failed ("+res.status+")"));
-  return data;
-}
-
-/* ---------- sign-in ---------- */
-async function boot(){
-  try{ cfg=await (await fetch("/api/config")).json(); }catch(e){}
-  if(!cfg.googleClientId){ showGate("Server not configured: GOOGLE_CLIENT_ID is missing."); return; }
-  $("#gateSub").textContent="Sign in with your "+cfg.allowedDomain+" account.";
-  if(idToken){ try{ await startApp(); return; }catch(e){ idToken=""; sessionStorage.removeItem("ie_idtoken"); } }
-  renderGoogleButton();
-}
-function renderGoogleButton(){
-  if(!window.google||!google.accounts){ setTimeout(renderGoogleButton,200); return; }
-  google.accounts.id.initialize({client_id:cfg.googleClientId, callback:onCredential});
-  google.accounts.id.renderButton($("#gbtn"),{theme:"filled_blue",size:"large",text:"signin_with",shape:"pill"});
-}
-async function onCredential(resp){
-  idToken=resp.credential; sessionStorage.setItem("ie_idtoken",idToken);
-  try{ await startApp(); }catch(e){ showGate(e.message); }
-}
-function showGate(msg){
-  $("#gate").style.display="flex"; $("#appHeader").style.display="none"; $("#appMain").style.display="none"; $("#footNote").style.display="none";
-  if(msg){ const e=$("#gateErr"); e.textContent=msg; e.style.display="block"; }
-  renderGoogleButton();
-}
-async function startApp(){
-  const s=await api("/api/settings");           // also validates the token
-  me=s.me; reviewModes=s.modes||{}; approvers=s.approvers||[];
-  $("#gate").style.display="none";
-  $("#appHeader").style.display="flex"; $("#appMain").style.display="block"; $("#footNote").style.display="block";
-  $("#who").innerHTML=(me.picture?`<img src="${me.picture}" alt="">`:"")+esc(me.name||me.email);
-  if(me.isApprover){ $("#reviewTabBtn").style.display="inline-block"; $("#approverSettings").style.display="block"; }
-  await Promise.all([loadProfiles(), loadDrafts()]);
-  if(me.isApprover) loadReviewQueue();
-}
-
-/* ---------- tabs + modals ---------- */
-$$(".tabbtn").forEach(b=>b.onclick=()=>{
-  $$(".tabbtn").forEach(x=>x.classList.toggle("active",x===b));
-  $$(".view").forEach(v=>v.classList.remove("active"));
-  $("#view-"+b.dataset.tab).classList.add("active");
-  if(b.dataset.tab==="review") loadReviewQueue();
-  if(b.dataset.tab==="saved") loadDrafts();
-});
-$("#openSettings").onclick=()=>{ $("#model").value=localStorage.getItem("ie_model")||"claude-sonnet-4-6"; renderModeRows(); $("#approversBox").value=approvers.join("\n"); $("#settingsModal").classList.add("open"); };
+$$(".tabbtn").forEach(b=>b.onclick=()=>{ $$(".tabbtn").forEach(x=>x.classList.toggle("active",x===b)); $$(".view").forEach(v=>v.classList.remove("active")); $("#view-"+b.dataset.tab).classList.add("active"); });
+$("#openSettings").onclick=()=>{ $("#model").value=localStorage.getItem(LS.model)||"claude-sonnet-4-6"; $("#settingsModal").classList.add("open"); };
 $("#setClose").onclick=()=>$("#settingsModal").classList.remove("open");
-$("#signOutBtn").onclick=()=>{ sessionStorage.removeItem("ie_idtoken"); idToken=""; try{google.accounts.id.disableAutoSelect();}catch(e){} location.reload(); };
+$("#setSave").onclick=()=>{ localStorage.setItem(LS.model,$("#model").value); $("#settingsModal").classList.remove("open"); };
+$("#signOutBtn").onclick=()=>{ sessionStorage.removeItem(SS.pw); $("#settingsModal").classList.remove("open"); alert("Password cleared. You'll be asked again next time you generate (only if one is set)."); };
 $("#pmClose").onclick=()=>$("#profileModal").classList.remove("open");
 $$(".modal-bg").forEach(m=>m.onclick=e=>{if(e.target===m)m.classList.remove("open");});
 
-$("#setSave").onclick=async()=>{
-  localStorage.setItem("ie_model",$("#model").value);
-  if(me.isApprover){
-    const modes={}; $$("#modeRows select").forEach(s=>modes[s.dataset.type]=s.value);
-    const appr=$("#approversBox").value.split("\n").map(x=>x.trim()).filter(Boolean);
-    try{ await api("/api/settings",{method:"PUT",body:{modes,approvers:appr}}); reviewModes=modes; approvers=appr; }
-    catch(e){ alert("Couldn't save settings: "+e.message); return; }
-  }
-  $("#settingsModal").classList.remove("open");
-};
-function renderModeRows(){
-  $("#modeRows").innerHTML=TYPES.map(t=>`<div class="moderow"><span>${TYPE_NAMES[t]}</span>
-    <select data-type="${t}" style="width:150px;margin:0">
-      <option value="self"${(reviewModes[t]||"self")==="self"?" selected":""}>Self-review</option>
-      <option value="approver"${reviewModes[t]==="approver"?" selected":""}>Approver queue</option>
-    </select></div>`).join("");
-}
+$("#typeGrid").addEventListener("click",e=>{ const c=e.target.closest(".typecard"); if(!c)return; state.type=c.dataset.type; $$(".typecard").forEach(x=>x.setAttribute("aria-pressed",x===c)); $("#topicLab").textContent=LABELS[state.type]; });
 
-/* ---------- content type ---------- */
-$("#typeGrid").addEventListener("click",e=>{
-  const c=e.target.closest(".typecard"); if(!c) return;
-  state.type=c.dataset.type;
-  $$(".typecard").forEach(x=>x.setAttribute("aria-pressed",x===c));
-  $("#topicLab").textContent=LABELS[state.type];
-});
-
-/* ---------- generation ---------- */
+async function doFetch(payload,pw){ return fetch("/api/generate",{method:"POST",headers:{"content-type":"application/json","x-app-password":pw||""},body:JSON.stringify(payload)}); }
 async function callServer(system,user,opts){
-  opts=opts||{};
-  const model=localStorage.getItem("ie_model")||"claude-sonnet-4-6";
-  const body={system,user,model,max_tokens:opts.max_tokens||2400};
-  if(opts.applyBrandVoice===false) body.applyBrandVoice=false;
-  const data=await api("/api/generate",{method:"POST",body});
-  return (data.text||"").trim();
+  opts=opts||{}; const model=localStorage.getItem(LS.model)||"claude-sonnet-4-6";
+  const payload={system,user,model,max_tokens:opts.max_tokens||2400}; if(opts.applyBrandVoice===false)payload.applyBrandVoice=false;
+  let pw=sessionStorage.getItem(SS.pw)||""; let res=await doFetch(payload,pw);
+  if(res.status===401){ pw=(prompt("Enter the team access password for this app:")||"").trim(); sessionStorage.setItem(SS.pw,pw); res=await doFetch(payload,pw); }
+  const data=await res.json().catch(()=>({})); if(!res.ok)throw new Error(data.error||("Request failed ("+res.status+")")); return (data.text||"").trim();
 }
 function buildPrompt(){
   const p=profiles.find(x=>x.id===$("#voiceSelect").value);
-  const type=state.type, len=LEN[$("#length").value][type];
-  const audience=$("#audience").value.trim(), input=$("#topic").value.trim(), source=$("#source").value.trim();
+  const type=state.type,len=LEN[$("#length").value][type];
+  const audience=$("#audience").value.trim(),input=$("#topic").value.trim(),source=$("#source").value.trim();
   let sys=`You are a ghostwriter for employee thought-leadership content. You write so convincingly in another person's voice that their colleagues would believe they wrote it. Never invent facts, statistics, quotes, clients, or results. Everything is a draft for review before publishing.\n\n# Voice to emulate\n`;
   if(p){ sys+=`Name: ${p.name}\n`; if(p.role)sys+=`Role: ${p.role}\n`; if(p.topics)sys+=`Areas of expertise: ${p.topics}\n`; if(p.notes)sys+=`Voice notes: ${p.notes}\n`;
     if(p.sample)sys+=`\nAuthentic writing sample — match this rhythm and personality:\n"""\n${p.sample}\n"""\n`; else sys+=`\n(No samples yet — infer a credible, grounded, human voice from the role.)\n`;
   } else sys+=`(No specific person selected — credible, grounded, human professional voice.)\n`;
-  sys+=`\n# What to write\nWrite ${GUIDE[type]}\nTarget length: ${len}.\n`;
-  if(audience)sys+=`Intended audience: ${audience}.\n`;
+  sys+=`\n# What to write\nWrite ${GUIDE[type]}\nTarget length: ${len}.\n`; if(audience)sys+=`Intended audience: ${audience}.\n`;
   if(VISUAL_TYPES.includes(type))sys+=`\nAfter the piece, output a line with exactly "===VISUAL===" then ONE sentence suggesting an on-brand visual.\n`;
   sys+=`\n# Hard rules\n- Sound human and specifically like the person above.\n- No buzzword soup, no hype.\n- Do not fabricate numbers, names, clients, or results.\n- Return ONLY the finished piece (plus the visual line if asked).`;
   let user;
-  if(["comment","repurpose","hottake","transcript"].includes(type)){
-    const m={comment:"the post being replied to",repurpose:"the long piece to repurpose",hottake:"the article/headline/quote to react to",transcript:"the transcript / notes"};
+  if(["comment","repurpose","hottake","transcript"].includes(type)){ const m={comment:"the post being replied to",repurpose:"the long piece to repurpose",hottake:"the article/headline/quote to react to",transcript:"the transcript / notes"};
     user=`Here is ${m[type]}:\n\n"""\n${input||"(none provided)"}\n"""`;
   } else user=`Write the piece about: ${input||"(choose a strong, specific topic within their expertise)"}`;
   if(source)user+=`\n\nGround it in this reference and do not invent facts beyond it:\n"""\n${source}\n"""`;
@@ -415,145 +290,76 @@ function buildPrompt(){
 function splitVisual(t){const i=t.indexOf("===VISUAL===");return i===-1?{body:t,visual:""}:{body:t.slice(0,i).trim(),visual:t.slice(i+12).trim()};}
 function fmtCount(el,c,type){const len=el.textContent.length;
   if(LINKEDIN_TYPES.includes(type)){const over=len>3000;c.innerHTML=`${len.toLocaleString()} characters · LinkedIn shows ~210 before “see more”`+(over?` · <span class="over">over 3,000 limit</span>`:``);}
-  else{const w=el.textContent.trim().split(/\s+/).filter(Boolean).length;c.textContent=`${w.toLocaleString()} words · ${len.toLocaleString()} characters`;}
-}
-function reviewedCopy(text,type,onDone){
-  const mode=reviewModes[type]||"self";
-  if(mode==="self"){
-    if(!confirm("Confirm you've reviewed this for accuracy — no invented stats, names, or claims — before copying.")) return;
-  } else {
-    if(!confirm("This content type uses the approver queue. Copying before approval is discouraged. Copy anyway?")) return;
-  }
-  navigator.clipboard&&navigator.clipboard.writeText(text); if(onDone)onDone();
-}
+  else{const w=el.textContent.trim().split(/\s+/).filter(Boolean).length;c.textContent=`${w.toLocaleString()} words · ${len.toLocaleString()} characters`;}}
 function draftCard(text,label,type){
-  const {body:bodyText,visual}=splitVisual(text);
-  const w=document.createElement("div"); w.className="draft";
-  const mode=reviewModes[type]||"self";
+  const {body:bodyText,visual}=splitVisual(text); const w=document.createElement("div"); w.className="draft";
   w.innerHTML=`<div class="meta"><span class="dot"></span> ${label} · review before posting</div>
     <div class="body" contenteditable="true"></div><div class="count"></div>
     ${visual?`<div class="visual"><b>Visual idea:</b> ${esc(visual)}</div>`:``}
-    <div class="acts">
-      <button class="btn secondary sm c">Copy</button>
-      <button class="btn ghost sm r">Refine</button>
-      <button class="btn ghost sm s">${mode==="approver"?"Save &amp; submit":"Save"}</button>
-    </div>`;
-  const body=w.querySelector(".body"), count=w.querySelector(".count");
-  body.textContent=bodyText; fmtCount(body,count,type);
+    <div class="acts"><button class="btn secondary sm c">Copy</button><button class="btn ghost sm r">Refine</button><button class="btn ghost sm s">Save</button></div>`;
+  const body=w.querySelector(".body"),count=w.querySelector(".count"); body.textContent=bodyText; fmtCount(body,count,type);
   body.addEventListener("input",()=>fmtCount(body,count,type));
-  w.querySelector(".c").onclick=function(){const b=this;reviewedCopy(body.textContent,type,()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy",1200);});};
-  w.querySelector(".s").onclick=async function(){
-    const btn=this; btn.disabled=true; btn.textContent="Saving…";
-    try{ await api("/api/drafts",{method:"POST",body:{draft:{id:uid(),type,body:body.textContent,visual,status:mode==="approver"?"in_review":"draft"}}});
-      btn.textContent=mode==="approver"?"Submitted ✓":"Saved ✓"; await loadDrafts(); setTimeout(()=>{btn.disabled=false;btn.textContent=mode==="approver"?"Save & submit":"Save";},1400);
-    }catch(e){ btn.disabled=false; btn.textContent="Save"; alert("Save failed: "+e.message); }
-  };
-  w.querySelector(".r").onclick=async function(){
-    const instr=prompt("How should I refine this draft?\n(e.g. 'punchier opening', 'shorter', 'add a concrete example')"); if(!instr)return;
-    const btn=this; btn.disabled=true; btn.textContent="Refining…";
-    try{ const {sys}=buildPrompt();
-      const out=await callServer(sys,`Here is a current draft:\n\n"""\n${body.textContent}\n"""\n\nRevise per: ${instr}\n\nReturn only the revised piece`+(VISUAL_TYPES.includes(type)?` plus the ===VISUAL=== line.`:`.`));
-      w.replaceWith(draftCard(out,"Draft ↻",type));
-    }catch(e){ btn.disabled=false; btn.textContent="Refine"; alert("Refine failed: "+e.message); }
-  };
+  w.querySelector(".c").onclick=function(){navigator.clipboard&&navigator.clipboard.writeText(body.textContent);this.textContent="Copied";setTimeout(()=>this.textContent="Copy",1200);};
+  w.querySelector(".s").onclick=function(){saved.unshift({id:uid(),type,label,text:body.textContent,when:Date.now()});store(LS.saved,saved);renderSaved();this.textContent="Saved ✓";setTimeout(()=>this.textContent="Save",1400);};
+  w.querySelector(".r").onclick=async function(){const instr=prompt("How should I refine this draft?\n(e.g. 'punchier opening', 'shorter', 'add a concrete example')");if(!instr)return;const btn=this;btn.disabled=true;btn.textContent="Refining…";
+    try{const {sys}=buildPrompt();const out=await callServer(sys,`Here is a current draft:\n\n"""\n${body.textContent}\n"""\n\nRevise per: ${instr}\n\nReturn only the revised piece`+(VISUAL_TYPES.includes(type)?` plus the ===VISUAL=== line.`:`.`));w.replaceWith(draftCard(out,"Draft ↻",type));}
+    catch(e){btn.disabled=false;btn.textContent="Refine";alert("Refine failed: "+e.message);}};
   return w;
 }
 $("#generateBtn").onclick=async function(){
-  const err=$("#composeErr"); err.style.display="none";
+  const err=$("#composeErr");err.style.display="none";
   if(!$("#topic").value.trim()){err.textContent="Give it something to work with in the box above.";err.style.display="block";return;}
-  const {sys,user,type}=buildPrompt(); const n=parseInt($("#variations").value,10);
-  const btn=this; btn.disabled=true; btn.innerHTML='<span class="spin"></span>Generating…';
-  const out=$("#output"); out.innerHTML="";
-  try{ for(let i=1;i<=n;i++){ const seed=n>1?`\n\n(Variation ${i} of ${n} — meaningfully different angle/opening.)`:"";
-    out.appendChild(draftCard(await callServer(sys,user+seed,{max_tokens:type==="longform"?3600:2400}),"Draft "+i,type)); }
-  }catch(e){ out.innerHTML=""; err.textContent="Generation failed: "+e.message; err.style.display="block"; }
-  finally{ btn.disabled=false; btn.textContent="Generate"; }
+  const {sys,user,type}=buildPrompt();const n=parseInt($("#variations").value,10);
+  const btn=this;btn.disabled=true;btn.innerHTML='<span class="spin"></span>Generating…';const out=$("#output");out.innerHTML="";
+  try{for(let i=1;i<=n;i++){const seed=n>1?`\n\n(Variation ${i} of ${n} — meaningfully different angle/opening.)`:"";out.appendChild(draftCard(await callServer(sys,user+seed,{max_tokens:type==="longform"?3600:2400}),"Draft "+i,type));}}
+  catch(e){out.innerHTML="";err.textContent="Generation failed: "+e.message;err.style.display="block";}
+  finally{btn.disabled=false;btn.textContent="Generate";}
 };
 $("#hooksBtn").onclick=async function(){
-  const err=$("#composeErr"); err.style.display="none"; const topic=$("#topic").value.trim();
+  const err=$("#composeErr");err.style.display="none";const topic=$("#topic").value.trim();
   if(!topic){err.textContent="Add a topic first, then I'll give you hooks.";err.style.display="block";return;}
-  const p=profiles.find(x=>x.id===$("#voiceSelect").value);
-  const btn=this; btn.disabled=true; btn.textContent="Thinking…"; const out=$("#output");
-  try{ const text=await callServer(`You write punchy, specific LinkedIn hook lines${p?" in the voice of "+p.name:""}. No clickbait.`,`Give me 5 distinct first-line hooks for a post about: ${topic}\n\nReturn only the 5 hooks, numbered 1-5, nothing else.`,{max_tokens:500});
+  const p=profiles.find(x=>x.id===$("#voiceSelect").value);const btn=this;btn.disabled=true;btn.textContent="Thinking…";const out=$("#output");
+  try{const text=await callServer(`You write punchy, specific LinkedIn hook lines${p?" in the voice of "+p.name:""}. No clickbait.`,`Give me 5 distinct first-line hooks for a post about: ${topic}\n\nReturn only the 5 hooks, numbered 1-5, nothing else.`,{max_tokens:500});
     const lines=text.split("\n").map(l=>l.replace(/^\s*\d+[\.\)]\s*/,"").trim()).filter(Boolean).slice(0,5);
-    const card=document.createElement("div"); card.className="draft";
+    const card=document.createElement("div");card.className="draft";
     card.innerHTML=`<div class="meta"><span class="dot"></span> 5 hook options · pick one and build from it</div><ul class="hooks">${lines.map((h,i)=>`<li><span class="n">${i+1}</span><span>${esc(h)}</span></li>`).join("")}</ul><div class="acts"><button class="btn secondary sm ca">Copy all</button></div>`;
     card.querySelector(".ca").onclick=function(){navigator.clipboard&&navigator.clipboard.writeText(lines.map((h,i)=>(i+1)+". "+h).join("\n"));this.textContent="Copied";setTimeout(()=>this.textContent="Copy all",1200);};
-    out.innerHTML=""; out.appendChild(card);
-  }catch(e){ err.textContent="Hooks failed: "+e.message; err.style.display="block"; }
-  finally{ btn.disabled=false; btn.textContent="Give me 5 hooks"; }
+    out.innerHTML="";out.appendChild(card);}
+  catch(e){err.textContent="Hooks failed: "+e.message;err.style.display="block";}
+  finally{btn.disabled=false;btn.textContent="Give me 5 hooks";}
 };
 
-/* ---------- profiles (shared, via API) ---------- */
-async function loadProfiles(){ try{ profiles=(await api("/api/profiles")).profiles||[]; }catch(e){ profiles=[]; } renderProfiles(); }
-function fillVoiceSelect(){ const sel=$("#voiceSelect"); const prev=sel.value;
+function fillVoiceSelect(){const sel=$("#voiceSelect");const prev=sel.value;
   sel.innerHTML=profiles.length?profiles.map(p=>`<option value="${p.id}">${esc(p.name)}${p.role?" — "+esc(p.role):""}</option>`).join(""):'<option value="">No profiles yet — add one</option>';
-  if(prev&&profiles.some(p=>p.id===prev))sel.value=prev; }
-function renderProfiles(){
-  const list=$("#profileList");
-  list.innerHTML=profiles.length?profiles.map(p=>`<div class="profile"><div class="av">${esc((p.name||"?").charAt(0))}</div>
-    <div><div class="nm">${esc(p.name)}</div><div class="ro">${esc(p.role||"")}${p.topics?" · "+esc(p.topics):""}</div></div>
-    <div class="spacer"></div><button class="btn ghost sm" data-edit="${p.id}">Edit</button></div>`).join(""):'<div class="empty">No voice profiles yet. Add one so drafts sound like the real person.</div>';
-  $$("[data-edit]").forEach(b=>b.onclick=()=>openProfile(b.dataset.edit));
-  fillVoiceSelect();
-}
+  if(prev&&profiles.some(p=>p.id===prev))sel.value=prev;}
+function renderProfiles(){const list=$("#profileList");
+  list.innerHTML=profiles.length?profiles.map(p=>`<div class="profile"><div class="av">${esc((p.name||"?").charAt(0))}</div><div><div class="nm">${esc(p.name)}</div><div class="ro">${esc(p.role||"")}${p.topics?" · "+esc(p.topics):""}</div></div><div class="spacer"></div><button class="btn ghost sm" data-edit="${p.id}">Edit</button></div>`).join(""):'<div class="empty">No voice profiles yet. Add one.</div>';
+  $$("[data-edit]").forEach(b=>b.onclick=()=>openProfile(b.dataset.edit)); fillVoiceSelect();}
 let editingId=null;
-function openProfile(id){ const p=profiles.find(x=>x.id===id); editingId=p?p.id:null;
-  $("#pmTitle").textContent=p?"Edit voice profile":"New voice profile"; $("#pmPaste").value="";
-  $("#pmName").value=p?p.name:""; $("#pmRole").value=p?p.role:""; $("#pmTopics").value=p?p.topics:""; $("#pmNotes").value=p?p.notes:""; $("#pmSample").value=p?p.sample:"";
-  $("#pmDelete").style.display=p?"inline-block":"none"; $("#profileModal").classList.add("open"); }
+function openProfile(id){const p=profiles.find(x=>x.id===id);editingId=p?p.id:null;
+  $("#pmTitle").textContent=p?"Edit voice profile":"New voice profile";$("#pmPaste").value="";
+  $("#pmName").value=p?p.name:"";$("#pmRole").value=p?p.role:"";$("#pmTopics").value=p?p.topics:"";$("#pmNotes").value=p?p.notes:"";$("#pmSample").value=p?p.sample:"";
+  $("#pmDelete").style.display=p?"inline-block":"none";$("#profileModal").classList.add("open");}
 $("#newProfileBtn").onclick=()=>openProfile(null);
-$("#pmBuild").onclick=async function(){ const txt=$("#pmPaste").value.trim(); if(!txt){$("#pmPaste").focus();return;}
-  const btn=this; btn.disabled=true; btn.innerHTML='<span class="spin"></span>Reading their voice…';
-  try{ const out=await callServer(`You analyze a person's real writing samples and produce a concise voice profile. Output EXACTLY these sections, nothing else:\nTOPICS: comma-separated topics\nNOTES: 2-3 sentences on tone, rhythm, quirks, do's/don'ts\nSAMPLE: the single strongest representative paragraph, verbatim`,`Writing samples:\n\n"""\n${txt}\n"""`,{applyBrandVoice:false,max_tokens:900});
+$("#pmBuild").onclick=async function(){const txt=$("#pmPaste").value.trim();if(!txt){$("#pmPaste").focus();return;}
+  const btn=this;btn.disabled=true;btn.innerHTML='<span class="spin"></span>Reading their voice…';
+  try{const out=await callServer(`You analyze a person's real writing samples and produce a concise voice profile. Output EXACTLY these sections, nothing else:\nTOPICS: comma-separated topics\nNOTES: 2-3 sentences on tone, rhythm, quirks, do's/don'ts\nSAMPLE: the single strongest representative paragraph, verbatim`,`Writing samples:\n\n"""\n${txt}\n"""`,{applyBrandVoice:false,max_tokens:900});
     const grab=k=>{const m=out.match(new RegExp(k+":\\s*([\\s\\S]*?)(?=\\n[A-Z]+:|$)"));return m?m[1].trim():"";};
-    if(grab("TOPICS")&&!$("#pmTopics").value)$("#pmTopics").value=grab("TOPICS");
-    if(grab("NOTES"))$("#pmNotes").value=grab("NOTES"); if(grab("SAMPLE"))$("#pmSample").value=grab("SAMPLE");
-  }catch(e){ alert("Couldn't build the profile: "+e.message); }
-  finally{ btn.disabled=false; btn.textContent="Build voice profile from posts"; }
-};
-$("#pmSave").onclick=async()=>{ const name=$("#pmName").value.trim(); if(!name){$("#pmName").focus();return;}
-  const profile={id:editingId||uid(),name,role:$("#pmRole").value.trim(),topics:$("#pmTopics").value.trim(),notes:$("#pmNotes").value.trim(),sample:$("#pmSample").value.trim()};
-  try{ await api("/api/profiles",{method:"POST",body:{profile}}); await loadProfiles(); $("#voiceSelect").value=profile.id; $("#profileModal").classList.remove("open"); }
-  catch(e){ alert("Save failed: "+e.message); } };
-$("#pmDelete").onclick=async()=>{ try{ await api("/api/profiles?id="+encodeURIComponent(editingId),{method:"DELETE"}); await loadProfiles(); $("#profileModal").classList.remove("open"); }catch(e){ alert("Delete failed: "+e.message); } };
+    if(grab("TOPICS")&&!$("#pmTopics").value)$("#pmTopics").value=grab("TOPICS");if(grab("NOTES"))$("#pmNotes").value=grab("NOTES");if(grab("SAMPLE"))$("#pmSample").value=grab("SAMPLE");}
+  catch(e){alert("Couldn't build the profile: "+e.message);}
+  finally{btn.disabled=false;btn.textContent="Build voice profile from posts";}};
+$("#pmSave").onclick=()=>{const name=$("#pmName").value.trim();if(!name){$("#pmName").focus();return;}
+  const rec={id:editingId||uid(),name,role:$("#pmRole").value.trim(),topics:$("#pmTopics").value.trim(),notes:$("#pmNotes").value.trim(),sample:$("#pmSample").value.trim()};
+  const i=profiles.findIndex(x=>x.id===rec.id);if(i>=0)profiles[i]=rec;else profiles.push(rec);store(LS.profiles,profiles);renderProfiles();$("#voiceSelect").value=rec.id;$("#profileModal").classList.remove("open");};
+$("#pmDelete").onclick=()=>{profiles=profiles.filter(x=>x.id!==editingId);store(LS.profiles,profiles);renderProfiles();$("#profileModal").classList.remove("open");};
 
-/* ---------- saved drafts ---------- */
-async function loadDrafts(){ try{ myDrafts=(await api("/api/drafts")).drafts||[]; }catch(e){ myDrafts=[]; }
-  const badge=$("#savedBadge"); if(myDrafts.length){badge.style.display="inline-block";badge.textContent=myDrafts.length;}else badge.style.display="none";
-  renderSaved(); }
-function renderSaved(){
-  const list=$("#savedList");
-  if(!myDrafts.length){ list.innerHTML='<div class="empty">Nothing saved yet. Hit Save on any draft and it lands here.</div>'; return; }
-  list.innerHTML=myDrafts.map(d=>`<div class="saveditem">
-    <div class="h"><span class="tag">${esc(TYPE_NAMES[d.type]||d.type)}</span> <span class="stat ${d.status}">${(d.status||"draft").replace("_"," ")}</span> <span>${new Date(d.updated_at).toLocaleDateString()}</span></div>
-    <div class="txt">${esc(d.body)}</div>
-    ${d.review_note?`<div class="note-in"><b>Reviewer:</b> ${esc(d.review_note)}</div>`:``}
-    <div class="acts">
-      <button class="btn secondary sm" data-copy="${d.id}">Copy</button>
-      ${(reviewModes[d.type]==="approver"&&d.status!=="in_review"&&d.status!=="approved")?`<button class="btn ghost sm" data-submit="${d.id}">Submit for review</button>`:``}
-      <button class="btn ghost sm" data-del="${d.id}">Delete</button>
-    </div></div>`).join("");
-  list.querySelectorAll("[data-copy]").forEach(b=>b.onclick=function(){const d=myDrafts.find(x=>x.id===b.dataset.copy);reviewedCopy(d.body,d.type,()=>{this.textContent="Copied";setTimeout(()=>this.textContent="Copy",1200);});});
-  list.querySelectorAll("[data-submit]").forEach(b=>b.onclick=async()=>{try{await api("/api/drafts",{method:"PATCH",body:{id:b.dataset.submit,action:"submit"}});await loadDrafts();}catch(e){alert(e.message);}});
-  list.querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{try{await api("/api/drafts?id="+encodeURIComponent(b.dataset.del),{method:"DELETE"});await loadDrafts();}catch(e){alert(e.message);}});
-}
+function renderSaved(){const badge=$("#savedBadge");if(saved.length){badge.style.display="inline-block";badge.textContent=saved.length;}else badge.style.display="none";
+  const list=$("#savedList");if(!saved.length){list.innerHTML='<div class="empty">Nothing saved yet. Hit Save on any draft and it lands here.</div>';return;}
+  list.innerHTML=saved.map(s=>`<div class="saveditem"><div class="h"><span class="tag">${esc(TYPE_NAMES[s.type]||s.type)}</span> <span>${new Date(s.when).toLocaleDateString()}</span></div><div class="txt">${esc(s.text)}</div><div class="acts"><button class="btn secondary sm" data-copy="${s.id}">Copy</button><button class="btn ghost sm" data-del="${s.id}">Delete</button></div></div>`).join("");
+  list.querySelectorAll("[data-copy]").forEach(b=>b.onclick=function(){const s=saved.find(x=>x.id===b.dataset.copy);navigator.clipboard&&navigator.clipboard.writeText(s.text);this.textContent="Copied";setTimeout(()=>this.textContent="Copy",1200);});
+  list.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{saved=saved.filter(x=>x.id!==b.dataset.del);store(LS.saved,saved);renderSaved();});}
 
-/* ---------- review queue (approvers) ---------- */
-async function loadReviewQueue(){ if(!me.isApprover)return; let q=[];
-  try{ q=(await api("/api/drafts?queue=1")).drafts||[]; }catch(e){ q=[]; }
-  const badge=$("#reviewBadge"); if(q.length){badge.style.display="inline-block";badge.textContent=q.length;}else badge.style.display="none";
-  const list=$("#reviewList");
-  if(!q.length){ list.innerHTML='<div class="empty">Nothing waiting for review.</div>'; return; }
-  list.innerHTML=q.map(d=>`<div class="saveditem">
-    <div class="h"><span class="tag">${esc(TYPE_NAMES[d.type]||d.type)}</span> <span>by ${esc(d.author_name||d.author_email)}</span></div>
-    <div class="txt" style="max-height:none">${esc(d.body)}</div>
-    <div class="acts"><button class="btn sm" data-ok="${d.id}">Approve</button><button class="btn ghost sm" data-no="${d.id}">Request changes</button></div></div>`).join("");
-  list.querySelectorAll("[data-ok]").forEach(b=>b.onclick=async()=>{try{await api("/api/drafts",{method:"PATCH",body:{id:b.dataset.ok,action:"approve"}});await loadReviewQueue();}catch(e){alert(e.message);}});
-  list.querySelectorAll("[data-no]").forEach(b=>b.onclick=async()=>{const note=prompt("What changes are needed?");if(note===null)return;try{await api("/api/drafts",{method:"PATCH",body:{id:b.dataset.no,action:"request_changes",note}});await loadReviewQueue();}catch(e){alert(e.message);}});
-}
-
-boot();
+renderProfiles();renderSaved();
 </script>
 </body>
 </html>
